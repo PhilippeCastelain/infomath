@@ -1,0 +1,6 @@
+
+<div class="list-group">
+     {% for theme in list %}
+        <a href="{{ theme.get_absolute_url}}" class="list-group-item list-group-item-action">{{theme.name}}</a>
+    {% endfor %}
+ </div>

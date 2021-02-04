@@ -1,0 +1,25 @@
+{% extends 'nsi/base.html' %}
+
+{% block title %}Thèmes{% endblock %}
+
+
+{% block jumbo %}Thèmes{% endblock %}
+
+{% block content %}
+
+
+    <div class="row">
+        {% for niveau,list_theme in par_niveau_list %}
+        <div class="col-md">
+            <h2>{{ niveau }}</h2>
+            {% if list_theme %}
+                {% include 'nsi/list_theme.html' with list=list_theme%}
+            {% else %}
+            <p>Désolé, pas de thème pour l'instant</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,124 @@
+{% load static %}
+<h1>{{cours.name}}</h1>
+<h2>Introduction</h2>
+    <p>
+        En mathématiques pour écrire un nombre relatif, on écrit tout d'abord son signe puis sa valeur absolue (« partie sans le signe ») et cela quelque soit la base dans laquelle on a représenté la valeur absolue qui est un entier positif. Ainsi en base 10 on écrira +7 (ou 7) pour un entier positif et -8 pour un négatif. En binaire on écrirait \(\tt+111_2\) (ou \(\tt 111_2\)) pour un positif et \(\tt-1000_2\) pour un négatif. Puis pour calculer on utilise les règles de l'arithmétique (par exemple : « pour soustraire un nombre on ajoute son opposé » ou « pour additionner deux nombres de même signe, on garde le signe et on additionne les valeurs absolues »)
+    </p>
+    <p>
+        Le problème, c'est que nous ne sommes pas en mathématiques mais en informatique et que nous ne disposons que de 0 et de 1 sur un nombre limité de bits pour représenter les nombres relatifs. Alors comment faire pour représenter les entiers relatifs ? Nous préférerons dire comment représenter (ou coder) les <strong>entiers signés</strong> ?
+    </p>
+    <p>
+        Nous étudierons trois codages du moins efficace au plus efficace qui est celui utilisé quasiment par tous nos systèmes numériques aujourd'hui. Pour cela nous nous intéresserons à deux critères :
+    </p>
+    <ul>
+        <li>unicité du codage de zéro. En effet avoir plusieurs représentations compliquent le test de nullité et les opérations aritmétiques;</li>
+        <li>possibilité d'utiliser les circuits arithmétiques des entiers non signés (pas besoin de nouveaux circuits électroniques). </li>
+    </ul>
+    <p>
+        Dans les trois cas le bit de poids fort représentera toujours le signe : 0 pour positif et 1 pour négatif.
+    </p>
+<h2>Codage signe/valeur absolue</h2>
+<   p>
+        C'est le codage qui semble le plus naturel. Le bit de poids fort représente le signe et la valeur absolue est codée en binaire naturel sur le reste des bits pour les positifs ainsi que les négatifs. Par exemple sur 4 bits on a :
+        $${\tt 6 = 0110_2}\quad\text{et}\quad{\tt -6=1110_2}$$. 
+    </p>
+    <p>
+        On peut donc coder sur n bits les entiers de \(-2^{n-1}+1\) à \(2^{n-1}-1\). Par exemple sur 4 bits on code les entiers de -7 à 7.
+    </p>
+    <p>
+        On se heurte ici à deux incovénients :
+    </p>
+    <ul>
+        <li>existence de deux zéros : \(0=\tt 0000_2\) et \(-0=\tt 1000_2\) sur 4 bits;</li>
+        <li>nécessité d'avoir d'autres circuits électroniques (complexes dans ce cas précis) pour l'arithmétique des entiers signés.</li>
+    </ul>
+    <p>
+        le schéma ci dessous illustre le dernier point en donnant les résultats des opérations entre entiers signés avec l'addition en binaire naturel (celle que l'on utilise pour les entiers non signés). Évidemment si les deux nombres sont positifs, tout ce passe bien tant que le résultat est dans l'intervalle des nombres que l'on peut coder puisque le codage des posififs correspond au binaire naturel.
+    </p>
+    <div class="text-center">
+        <figure class="figure">
+            <img src="{% static 'nsi/img/cours/RD/op_sign_va.svg' %}" class="figure-img img-fluid" alt="Opération binaire signe/va">
+            <figcaption class="figure-caption">Résultats faux avec le codage signe/valeur absolue.</figcaption>
+        </figure>
+    </div>
+    <p>
+        Ce codage n'est en pratique jamais utiisé. Nous allons donc étudier un codage un peu plus performant : le codage en <strong>complément à un</strong>
+    </p>
+<h2>Codage en complément à 1</h2>
+    <p>
+        L'opération <strong>complément à 1</strong> sur n bits (notée \(C_1\)) d'un nombre représenté en binaire revient à faire la <strong>négation</strong> de chaque bit (0 devient 1 et 1 devient 0). Par exemple sur 4 bits on a \(C_1({\tt 0110_2})=\tt 1001_2\). De plus, par définition du complément à 1 on a \(C_1(C_1(k))=k\).
+    </p>
+    <p>
+        Le codage en complément à 1 sur n bits des nombres entiers relatifs s'effectue ainsi :
+    </p>
+    <ul>
+        <li>un nombre positif est codé en binaire naturel sur n-1 bits avec 0 comme bit de poids fort;</li>
+        <li>un nombre négatif est codé en prenant le complément à 1 de sa valeur absolue (le bit de poids fort est donc bien égal à 1).</li>
+    </ul>
+    <p>
+        Par exemple sur 4 bits on a : $$\tt 6=0110_2\quad\text{et}\quad-6=1001_2.$$
+    </p>
+    <p>
+        On peut donc coder sur n bits les entiers de \(-2^{n-1}+1\) à \(2^{n-1}-1\). Par exemple sur 8 bits on code les entiers de -127 à 127. De plus avec ce codage on a \(C_1(n)=-n\). Ainsi pour savoir à quel nombre correspond \(\tt 1100_2\), on calcule le complément à 1 de \(\tt 1100_2\) (qui est un nombre posifif codé en binaire pur) puis on prend l'opposé.  \(C_1({\tt1100_2})={\tt 0011_2}=3\) donc \({\tt1100_2}=-3\).
+    </p>
+    <p>
+        On se heurte ici à deux incovénients :
+    </p>
+    <ul>
+        <li>existence de deux zéros : \(0=\tt 0000_2\) et \(-0=\tt 1111_2\) sur 4 bits;</li>
+        <li>nécessité de modifier le circuit électronique de l'additionneur des entiers non signés pour l'arithmétique des entiers signés.</li>
+    </ul>
+    <p>
+        le schéma ci dessous illustre le dernier point en donnant les résultats des opérations entre entiers signés avec l'addition en binaire naturel (celle que l'on utilise pour les entiers non signés). Évidemment si les deux nombres sont positifs, tout ce passe bien tant que le résultat est dans l'intervalle des nombres que l'on peut coder puisque le codage des posififs correspond au binaire naturel.
+    </p>
+    <div class="text-center">
+        <figure class="figure">
+            <img src="{% static 'nsi/img/cours/RD/op_comp_un.svg' %}" class="figure-img img-fluid" alt="Opération binaire signe/va">
+            <figcaption class="figure-caption">Quelques résultats avec le codage en complément à 1.</figcaption>
+        </figure>
+    </div>
+    <p>
+        Cela ne semble pas beaucoup mieux qu'avec le codage signe/valeur absolue. Pourtant si on regarde de plus près, pour les résultats faux, il suffit d'ajouter un pour avoir le bon résultat codé en complément à 1. Par exemple, sur 4 bits, on a :
+        $$\eqalign{
+            \tt0011_2+1101_2=0000_2&\quad\text{et}\quad&\tt0000_2+1=0001_2&({\tt 3+(-2)=0+1=1})\cr
+            \tt1100_2+1101_2=1001_2&\quad\text{et}\quad&\tt1001_2+1=1010_2&({\tt -3+(-2)=-6+1=-5}).
+        }$$
+    </p>
+    <p>
+        Ainsi on peut modifier le circuit additionneur des entiers non signés pour prendre en charge les entiers signés codés en complément à un (Une anlyse mathématique nous le montre). Mais cela reste peu commode et couteux en terme d'électronique. En fait nous allons préférer un autre type de codage qui en quelque sorte « intègre » le +1 que nous devons faire effectuer pour retrouver les résultats corrects et qui en plus élimine le double codage de zéro. C'est le codage en <strong>complément à deux</strong>.
+    </p>
+<h2>Codage en complément à deux</h2>
+    <p>
+        L'opération <strong>complément à 2</strong> sur n bits (notée \(C_2\)) d'un nombre représenté en binaire revient prendre le complément à 1 puis à ajouter 1 : $$C_2(k)=C_1(k)+1\quad\text{(k en binaire sur n bits)}.$$
+        Par exemple sur 4 bits on a \(C_2({\tt 0110_2})=C_1({\tt 0110_2})+{\tt 1}={\tt 1001_2}+{\tt 1}={\tt 1010_2}\). De plus \(C_2(C_2({\tt 0110_2}))=C_2({\tt 1010_2})={\tt 0101_2}+{\tt 1}={\tt 0110_2}\). En fait on peut démontrer que \(C_2(C_2(k))=k\).
+    </p>
+    <p>
+        Le codage en complément à 2 sur n bits des nombres entiers relatifs s'effectue ainsi :
+    </p>
+    <ul>
+        <li>un nombre positif est codé en binaire naturel sur n-1 bits avec 0 comme bit de poids fort;</li>
+        <li>un nombre négatif est codé en prenant le complément à 2 de sa valeur absolue (le bit de poids fort est donc bien égal à 1).</li>
+    </ul>
+    <p>
+        Par exemple sur 4 bits on a : $$\tt 6=0110_2\quad\text{et}\quad-6=1001_2+1=1010_2.$$ De plus \(C_2({\tt 0000_2})={\tt 1111_2}+{\tt 1}={\tt 10000_2}={\tt 0000_2}\) sur 4 bits. On a donc un seul codage pour zéro. Si on regarde dans le détail le codage en complément à 2 sur 4 bits, on remarque que l'on peut coder les positifs de 1 à 7 (\(\tt 0001_2\) à \(\tt 0111_2\)), les négatifs de -1 à -7 (\(\tt 1111_2\) à \(\tt 1001_2\)) et le zéro (\(\tt 0000_2\)). Il reste donc un codage inutilisé qui est \(\tt 1000_2\). Le bit de poids fort est à un, c'est donc un nombre négatif. De plus \(-7-1={\tt 1001_2}-{\tt 1}={\tt 1000_2}\), donc \({\tt1000_2}=-8\).
+    </p>
+    <p>
+        On peut donc coder sur n bits les entiers de \(-2^{n-1}\) à \(2^{n-1}-1\). Par exemple sur 8 bits on code les entiers de -128 à 127. De plus avec ce codage on a \(C_2(n)=-n\) sauf pour \(2^{n-1}\) où \(C_2(2^{n-1})=2^{n-1}\). Pour savoir la valeur d'un nombre codé en complément à 2 dont le bit de poids fort est à 1 on a deux possibilité :
+    </p>
+    <ul>
+        <li>soit on a un 1 suivi de n-1 zeros. Dans ce cas la valeur est \(-2^{n-1}\). Par exemple \({\tt 10000000_2}=-128\);</li>
+        <li>soit on calcule le complément à 2 et on prend l'opposé. Par exemple \(C_2({\tt 10001100_2})={\tt01110011_2}+1={\tt 01110100_2}=116\) donc \({\tt 10001100_2}=-116\).</li>
+    </ul>
+    <p>
+        L'avantage majeur du codage en complément à 2, outre le fait que l'on a un codage unique pour zéro, est que l'on peut utiliser l'additionneur binaire des entiers non signés sans changement. Le schéma suivant va illustrer cette caractéristique.
+    </p>
+    <div class="text-center">
+        <figure class="figure">
+            <img src="{% static 'nsi/img/cours/RD/op_comp_deux.svg' %}" class="figure-img img-fluid" alt="Opération binaire signe/va">
+            <figcaption class="figure-caption">Quelques résultats avec le codage en complément à 2.</figcaption>
+        </figure>
+    </div>
+<h2>Conclusion</h2>
+    <p>
+        Avec le codage en complément à deux, nous avons satisfait les deux contraintes que l'on s'était fixé : codage du zéro unique et utilisation des mêmes circuits arithmétiques pour les entiers signés et non signés. Ainsi, l'électronique (le microprocesseur) ne sait pas s'il manipule des entiers signés ou non. C'est le programmeur qui décide comment traiter les entiers suivant ses besoins. Ainsi en C, les entiers peuvent être par exemple de type <code class="language-clike">short int</code> (2 octets) ou <code class="language-clike">int</code> (4 octets) et <code class="language-clike">signed</code> (signé par défaut) ou <code class="language-clike">unsigned</code> (non signé). On a donc des types proches de la machine. En Python par contre le type <code>int</code> est un type plus évolué et donc plus éloigné de la machine. En effet les entiers peuvent être de taille quelconque (dans la limite de la mémoire disponible) et sont donc toujours signés. C'est Python qui gère leur représentation en mémoire.
+    </p>

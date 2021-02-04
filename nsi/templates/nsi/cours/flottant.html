@@ -1,0 +1,93 @@
+{% load static %}
+<h1>{{cours.name}}</h1>
+<h2>Introduction</h2>
+    <p>
+        Dans cet exposé, nous allons tout d'abord comprendre comment on représente les nombres réels en base 2, puis nous verrons le codage utilisé basé sur la notion de <strong>virgule flottante</strong>.
+    </p>
+    <p>
+        En base 10, tout nombre admet une écriture décimale composée d'une <strong>partie entière</strong> et d'une <strong>partie décimale</strong> finie ou infinie. Voici quelques exemples d'écriture décimale :
+    </p>
+    <ul>
+        <li>un nombre décimal : \(45,\!237\);</li>
+        <li>un nombre rationnel non décimal : \(1,\!714285714285\dots\) (qui est égal à \(\frac{12}{7}\));</li>
+        <li>un nombre irrationnel : \(1,\!4142135623730950\dots\) (qui est égal à \(\sqrt{2}\)).</li>
+    </ul>
+    <p>
+        La partie entière correspond en écriture décimal aux puissances de 10 d'exposant positif et la partie décimale aux puissances de 10 d'exposant négatif. Chaque puissance est multiplié par un chiffre compris entre 0 et 9 (puiqu'on est en base 10). Ainsi on a :
+        $$45,\!237=4\times10^1+5\times10^0+2\times10^{-1}+3\times10^{-2}+7\times10^{-7}.$$
+        2 est le chiffre des dixièmes, 3 le chiffre des centièmes et 7 le chiffre des millièmes.
+    </p>
+    <p>
+        En base deux c'est exactement pareil mais avec des puissances de deux. En fait on peut démontrer que dans n'importe quelle base tout nombre réel admet un développement suivant les puissances de cette base. Il est fini suivant les puissances d'exposant positif et peut être fini ou infini suivant les puissances d'exposant négatif. 
+    </p>
+<h2>Écriture dyadique d'un nombre réel</h2>
+    <p>
+        L'écriture <strong>dyadique</strong> d'un nombre est tout simplement l'équivalent en base deux de l'écriture décimale. Elle est composée d'une <strong>partie entière</strong> et d'une <strong>partie dyadique</strong> finie ou infinie. Voici quelques exemples d'écriture dyadique :
+    </p>
+    <ul>
+        <li>un nombre dyadique : \(\tt 101,\!1001_2\);</li>
+        <li>un nombre réel non dyadique : \(\tt 1,\!011011011\dots_2\);</li>
+        <li>un autre nombre réel non dyadique : \(\tt 1,\!10011101\dots_2\).</li>
+    </ul>
+    <p>
+        Ainsi on a : 
+        $$\eqalign{
+            {\tt 101,\!1001_2} &= 1\times2^2+0\times2^1+1\times2^0+1\times2^{-1}+0\times2^{-2}+0\times2^{-3}+1\times2^{-4}\cr
+                            &= 4+1+0,\!5+0,\!0625\cr
+                            &= 5,\!5625.
+        }$$
+        Le premier 1 aprés la virgule est le chiffre des demis, le premier 0 est le chiffre des quarts, le deuxième 0 est le chiffre des huitièmes et le deuxième 1 le chiffre des seizièmes. Cette formule nous donne le calcul permettant de passer de l'écriture dyadique à l'écriture décimale. Attention ici on ne parle pas de codage informatique donc un nombre négatif s'écrit avec le signe moins. Par exemple on a \({\tt -1,\!1_2}=-1,\!5\))
+    </p>
+<h2>Conversion de la base 2 vers la base 10</h2>
+    <p>
+        Comme vu dans le point précédent il suffit d'écrire le développement suivant les puissances de deux et d'effectuer le calcul.
+    </p>
+<h2>Conversion de la base 10 vers la base 2</h2>
+    <p>
+        On va expliquer la méthode à l'aide d'un exemple. Supposons que l'on veuille trouver l'écriture dyadique de \(27,\!6875\). On peut écrire :$$27,\!6875=27+0,\!6875.$$ On sait déjà écrire la partie entière sous forme binaire \(27={\tt 11011_2}\). Voyons comment trouver l'écriture en binaire de \(0,\!6875\).
+    </p>
+    <p>
+        Pour la partie dyadique (à droite de la virgule), on effectue des multiplications successives par 2 (qui correspondent en fait à des divisions par 1/2). Après chaque multiplication, la partie entière (0 ou 1) n’est pas reportée et correspond à un chiffre de l'écriture dyadique. On poursuit le calcul jusqu’à obtenir 1 dans le cas où la partie dyadique est finie ou quand on a obtenu le nombre de chiffres binaires désiré. Pour \(0,\!6875\) cela donne :
+        $$\eqalign{
+        0,\!6875\times2 &=1,\!375 &={\color{red} 1}+0,\!375\cr
+        0,\!375\times2  &=0,\!75  &={\color{red} 0}+0,\!75\cr
+        0,\!75\times2   &=1,\!5   &={\color{red} 1}+0,\!5\cr
+        0,\!5\times2    &=1,\!0   &={\color{red} 1}+0
+        }.
+        $$
+        Donc on a \(0,\!6875={\tt 0,\!1011_2}\) et \(27,\!6875={\tt 11011,\!1011_2}\).
+    </p>
+    <p>
+        Un autre exemple avec la conversion de \(0,\!2\) en base 2 : 
+        $$\eqalign{
+        0,\!2\times2&=0,\!4&={\color{red} 0}+0,\!4\cr
+        0,\!4\times2&=0,\!8&={\color{red} 0}+0,\!8\cr
+        0,\!8\times2&=1,\!6&={\color{red} 1}+0,\!6\cr
+        0,\!6\times2&=1,\!2&={\color{red} 1}+0,\!2\cr
+                     &\vdots&\vdots}.
+        $$
+        On a ici une partie dyadique infinie et donc \(0,\!2=0,\!00110011\dots_2\).
+    </p>
+    <p>
+        Ainsi les nombres avec une écriture dyadique infinie ne pourront être représentés exactement en machine quelque soit le codage utilisé puisque les mots en machine ont forcément une taille finie. La question qui se pose est : Quel est le meilleur codage pour avoir le maximum de nombre réel représentable avec une perte de précision acceptable ?
+    </p>
+    <p>
+        Dans la suite de cet exposé, quand nous voudrons désigner les deux parties d'un nombre réel sans préciser la base nous parlerons de partie entière et de <strong>partie fractionnaire</strong> (décimale en base 10, dyadique en base 2) 
+    </p>
+<h2>Codage en virgule fixe</h2>
+    <p>
+        C'est le codage le plus simple à réaliser et qui permet de réaliser facilement les opérations élémentaires. Pourtant il est peu utlisé de nos jours dans nos ordinateurs car il présente un grave défaut que nous verrons ensuite. Il est pourtant utilisé dans certains microcontroleurs à faible cout car il est facile à mettre en oeuvre avec peu d'électronique supplémentaire par rapport aux nombres entiers.
+    </p>
+    <p>
+        Ce codage consiste à séparer les mots en mémoire en deux partie, une pour la partie entière et l'autre pour la partie fractionnaire. Par exemple sur 16 bits on peut réserver 10 bits pour la partie entière et 6 bits pour la partie fractionnaire. On parle de codage en <strong>virgule fixe</strong> (fixed point en anglais) car la virgule est toujours au même endroit quelque soit le nombre codé. Dans notre exemple on sait qu'elle est entre le sixième bit (bit des demis) et le septième bit (bit des unités). Le schéma ci dessous va nous permettre de mieux visualiser ce codage.
+    </p>
+    <div class="text-center">
+        <figure class="figure">
+            <img src="{% static 'nsi/img/cours/RD/fixed_point.svg' %}" class="figure-img img-fluid" alt="Codage en virgule fixe">
+            <figcaption class="figure-caption">Exemple codage en virgule fixe.</figcaption>
+        </figure>
+    </div>
+<h2>Codage en virgule flottante</h2>
+    <p>
+
+    </p>

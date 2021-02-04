@@ -1,0 +1,12 @@
+{% extends 'nsi/base.html' %}
+{% block url %}/{% endblock %}
+{% block home %}Accueil{% endblock %}
+{% block content %}
+
+
+<h1>Portail NSI</h1>
+<a href="/">Home</a>
+<a href="{% url 'nsi:themes' %}">Themes</a>
+
+
+{% endblock %}

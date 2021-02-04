@@ -1,0 +1,546 @@
+{% load static %}
+<h1>{{cours.name}}</h1>
+<h2>Introduction</h2>
+    <p>
+        Dans cet exposé, nous allons nous intéresser à des types de données abstraits correspondant à des structures de données <strong>linéaires</strong>. On parle de structure linéaire lorsque les données sont regroupées séquentiellement (« les unes aprés les autres ») : chaque donnée, sauf la dernière, possède un successeur. En terminale, nous allons étudier les <strong>listes</strong>, les <strong>piles</strong> et les <strong>files</strong>. Sans le savoir, en première, nous avons utiliser une structure de données linéaire en utilisant les tableaux indexés avec le type Python <code>list</code>.
+    </p>
+<h2>Les listes</h2>
+    <p>
+        Attention le type <code>list</code> en Python correspond, en fait, à des <strong>tableaux dynamiques</strong> (tableaux dont la taille peut varier) munis en plus de méthodes typiques des listes (au sens du type abstrait défini par les informaticiens).
+    </p>
+    <p>
+        Une liste est une structure linéaire regroupant des données de même type, que l'on peut parcourir (sans la détruire) en partant du début, mais sans aucun accès direct à un élément autre que le premier. Cela correspond à la définition originale du TDA <span class="pseudocode">Liste</span>. C'est une structure <strong>dynamique</strong> car sa taille n'est pas fixée à sa création. On peut toujours ajouter un élément (dans la limite de la mémoire disponible). De nos jours, on autorise l'accés direct à un élément.
+    </p>
+    <p>
+        Ceci étant dit, une liste est composée de deux partie :
+    </p>
+    <ul>
+        <li>une <strong>tête</strong> qui correspond au dernier élément ajouté;</li>
+        <li>une <strong>queue</strong> qui correspond au reste de la liste.</li>
+    </ul>
+    <div class="text-center">
+        <figure class="figure">
+            <img src="{% static 'nsi/img/cours/SD_T/liste.svg' %}" class="figure-img img-fluid" alt="liste">
+            <figcaption class="figure-caption">Éléments d'une liste.</figcaption>
+        </figure>
+    </div>
+    Bien entendu, nous devons maintenant définir l'interface de notre TDA <span class="pseudocode">Liste</span>.
+<h3>L'interface minimale du TDA <span class="pseudocode">Liste</span></h3>
+    <p>
+        L'interface, comprenant les cinq opérations primitives suivantes, permet de définir complètement le TDA <span class="pseudocode">Liste</span> :
+    </p>
+    <ul>
+        <li>créer une liste vide : <span class="pseudocode">listeVide()</span>;</span>
+        <li>construitre une nouvelle liste avec un élément qui sera la tête et une liste qui sera la queue : <span class="pseudocode">cons(e,L)</span> où e est un élément et L une liste (<span class="pseudocode">cons</span> est le nom « historique » de cette méthode);</li>
+        <li>renvoyer la tête d'une liste non vide : <span class="pseudocode">tete(L)</span> où L est une liste non vide;</li>
+        <li>renvoyer la queue d'une liste non vide : <span class="pseudocode">queue(L)</span> où L est une liste non vide;</li>
+        <li>tester si une liste est vide : <span class="pseudocode">estVide(L)</span> où L est une liste.</li>
+    </ul>
+    <p>
+        Ainsi, pour construire une liste formée par les nombres 5, 3, 8 (dans cet ordre) on fait : <span class="pseudocode">maliste1 = cons(5, (3, cons(8, listevide())))</span>.
+    </p>
+    <p>
+        On peut, par exemple, représenter cette liste ainsi  : (5,(3,(8,()))) où () est la liste vide. Pour plus de clarté, on notera (5 3 8) sans virgule pour ne pas confondre avec les t-uples de Python
+    </p>
+    <p>
+        Dans ce cas on a :
+    </p>
+    <ul>
+        <li><span class="pseudocode">tete(maliste1)</span> renvoie 5;</li>
+        <li><span class="pseudocode">queue(maliste1)</span> renvoie la liste (3 8).</li>
+    </ul>
+    <p>
+        Cette interface peut paraitre un peu restrictive mais on sait depuis les travaux de Mac Carthy sur le langage LISP, qu'avec ces 5 opérations on peut reconstruire toutes les opérations sur les listes (accéder à un élément, modifier un élément, insérer/ajouter/supprimer un élément, calculer la longueur, tester l'appartenance, etc.)
+    </p>
+    <p>
+        Maintenant que nous avons étudié le type abstrait <span class="pseudocode">Liste</span>, il est temps de l'implémenter avec une structure de données concrète.
+    </p>
+<h3>Implémentations</h3>
+    <p>
+        Le choix de l'implémentation va dépendre de compromis concernant les couts en espace mémoire (<strong>complexité spatiale</strong>) et les couts en temps d'exécution (<strong>complexité temporelle</strong>) suivant les différentes opérations à effectuer. Nous verrons un exemple (très simple) de cette problématique aprés avoir décrit un implémentation de notre TDA <span class="pseudocode">Liste</span> à l'aide de la structure de données appelée <strong>liste chainée</strong>.
+    </p>
+    <h4>Liste chainée</h4>
+        <p>
+            Une liste chainée est constituée d'une suite de cellules. Chaque cellule possède une partie qui contient la donnée et une autre partie contenant une référence (on parle aussi de pointeur qui est pour simplifier une addresse mémoire) vers la cellule suivante. Le schéma ci dessous, où chaque cellule est représentée par un rectangle et les références par des flèches, va nous permettre de mieux comprendre la structure.
+        </p>
+        <div class="text-center">
+            <figure class="figure">
+                <img src="{% static 'nsi/img/cours/SD_T/liste_chainee.svg' %}" class="figure-img img-fluid" alt="liste chainée">
+                <figcaption class="figure-caption">Listes chainées.</figcaption>
+            </figure>
+        </div>
+        <p>
+            En Python, nous avons choisi d'implémenter la liste chainée en utilisant le paradigme objet. Pour cela nous allons créer deux classes :
+        </p>
+        <ul>
+            <li>la classe <code>Cellule</code> pour coder chaque cellule;</li>
+            <li>la classe <code>Liste</code> pour coder la liste en elle même avec son interface.</li>
+        </ul>
+        <p>
+            L'utilisateur du type <code>Liste</code> (donc de la classe <code>Liste</code>) n'a pas à connaitre et donc utiliser la classe <code>Cellule</code> qui sert à construire la classe <code>Liste</code>.
+        </p>
+        <p>
+            Voci une possibilité de code pour notre classe <code>Liste</code>. On a implémenté l'interface précedemment décrite à laquelle on a ajouté deux méthodes : 
+        </p>
+        <ul>
+            <li>une permettant d'ajouter un élément en tête de liste;</li>
+            <li>une permettant d'avoir une représentation évaluable de nos instances du type <code>Liste</code>.</li>
+        </ul>        
+        <div class="row justify-content-center mb-3">
+            <div class="col-8">
+                <pre><code>
+class Cellule:
+    def __init__(self,e,s):
+        self.element=e
+        self.suivant=s
+        
+class Liste:
+    # le constructeur par défaut crée une liste vide ()
+    # l'attribut tete contient une référence vers la cellule de tete
+    def __init__(self,c=None):
+        self.head = c
+    # représentation de la liste sous forme (elt1 elt2 ...)
+    # où elt1 est la tête de la liste
+    def __repr__(self):
+        if self.estVide():
+            return '()'
+        rep = '('
+        courant = self.head
+        while courant:
+            rep += repr(courant.element) + ' '
+            courant = courant.suivant
+        # rep[:-1] permet d'avoir une chaine sans le dernier élémnet
+        # qui est un espace
+        return rep[:-1] + ')'
+    # renvoie true si la liste est vide
+    def estVide(self):
+        if self.head == None:
+            return True
+        return False
+    # renvoie la tete de la liste
+    def tete(self):
+        return self.head.element
+    # renvoie une nouvelle liste qui est la queue de l'instance
+    def queue(self):
+        return Liste(self.head.suivant)
+    # renvoie une nouvelle liste dont la tête est e
+    # et la queue est l'instance
+    def cons(self,e):
+        c = Cellule(e,self.head)
+        return Liste(c)
+    # ajoute e en tête de la liste
+    def ajoutEnTete(self,e):
+        self.head = Cellule(e,self.head)
+                </code></pre> 
+            </div>
+        </div>
+        <p>
+            Quelques remarques s'imposent. Supposons que l'on veuille créer une liste appelée <code>maliste</code>. On a alors :
+        </p>
+        <ul>
+            <li><code>maliste=Liste()</code> correspond à <span class="pseudocode">maliste=listeVide()</span> du TDA;</li>
+            <li><code>maliste.tete()</code> correspond à <span class="pseudocode">tete(maliste)</span>;</li>
+            <li><code>maliste.queue()</code> correspond à <span class="pseudocode">queue(maliste)</span>;</li>
+            <li><code>maliste.estVide()</code> correspond à <span class="pseudocode">estVide(maliste)</span>;</li>
+            <li><code>maliste.cons(e)</code> correspond à <span class="pseudocode">cons(e,maliste)</span>;</li>
+            <li><code>maliste.ajoutEnTete(e)</code> revient à faire <code>maliste=maliste.cons(e)</code>.</li>
+        </ul>
+        <p>
+            Testons et analysons notre code dans la fenètre Python ci dessous.
+        </p>
+        <div class="row justify-content-center mb-3">
+            <div class="col-10">
+                <div class="embed-responsive embed-responsive-21by9">
+                    <iframe class="embed-responsive-item" src="https://trinket.io/embed/python3/6446911761" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+        <p>
+            Dans le TD sur les listes, nous verrons comment implémenter d'autres méthodes bien pratiques comme l'insertion ou la suppression d'éléments ainsi que d'autres implémentations possibles.
+        </p>
+    <h4>Comparaison de deux implémentations : tableau dynamique et liste chainée</h4>
+        <p>
+            On peut, si l'on veut, implémenter notre TDA <span class="pseudocode">Liste</span> avec le type <code>list</code> Python (donc des tableaux dynamiques) et ainsi bénéficier d'un accés direct aux éléments ou alors utiliser des listes chainées avec, par exemple, notre classe <code>Liste</code>.
+        </p>
+        <p>
+            Bien que l'on ait alors la même interface, les couts en temps  ne sont pas les mêmes pour toutes les opérations. Nous allons, juste pour prendre conscience du problème, examiner trois cas.
+        </p>
+        <ul>
+            <li>
+                <b>Premier cas</b> : accés à un élément quelconque du tableau. Comme un tableau dynamique est une suite d'emplacements mémoire contigus, on peut accéder directement à n'importe quel élément juste en calculant son addresse à l'aide de l'adresse du premier élément. On dit que l'on a un cout en temps constant (mathématiquement on note \(O(1)\)). Par contre pour une liste chainée contenant n éléments, on doit pour accéder au dernier (on parle du pire cas) parcourir toute la chaine. On à donc un cout en temps proportionnel à la longueur n (mathématiquement on note \(O(n)\)). Le tableau dynamique semble donc ici plus intéressant.
+            </li>
+            <li>
+                <b>Deuxième cas</b> : ajout d'un élément à la fin (aprés le dernier ajouté). Les cellules de la liste chainée sont dispersées dans la mémoire et reliées entre elles par les pointeurs. Ajouter un élément à la fin, c'est juste créer une nouvelle cellule et la faire pointer sur la tête de la liste. Cela se fait en temps constant \(O(1)\). Pour un tableau dynamique, s'il y a de la place aprés le dernier élément alors il n'y a pas de problème et l'opération se fait en temps constant \(O(1)\). Sinon on doit créer un nouveau tableau plus grand et déplacer les n éléments avant d'ajouter le nouvel élément. Cela se fait en temps linéaire \(O(n)\).
+            </li>
+            <li>
+                <b>Troisième cas</b> : ajout d'un élément au début (avant le premier). Dans le cas d'une liste chainée, on doit parcourir toute la liste (les n éléments) avant d'insérer une nouvelle cellule. Cela se fait en temps linéaire \(O(n)\). Pour le tableau dynamique on doit d'abord déplacer les n éléments avant d'en ajouter un au début (indice 0). Cela se fait ausii en temps linéaire \(O(n)\). 
+            </li>
+        </ul>
+        <p>
+            Donc le choix de la structure de données concrète utilisée va dépendre de la fréquences des différentes opérations effectuées en rapport avec leur cout en temps suivant l'algorithme à implémenter. Dans notre cas, quand nous aurons besoin d'une liste, nous utiliserons le type Python <code>list</code>. Attention la liste <code>(5 3 8)</code> sera représentée par la liste Python <code>[8,3,5]</code>.
+        </p>
+        <p>
+            Nous allons maintenant étudier deux autres TDA qui sont en fait des listes avec des accés aux éléments restreints : les <strong>piles</strong> et les <strong>files</strong>.
+        </p>
+<h2>Les piles</h2>
+        <p>
+            Il faut se représenter une pile (stack en anglais) comme une pile de livres ! Seul le livre disposé sur le dessus est accessible? Ainsi l'ajout et le retrait d'un élément ne peut se faire que sur le <strong>sommet</strong> de la pile. Les piles sont fondées sur le principe <strong>LIFO</strong> (Last In, First Out qui signifie « dernier entré, premier sorti »). Bien sur tous les éléments d'une pile sont du même type.
+        </p>
+        <div class="text-center">
+            <figure class="figure">
+                <img src="{% static 'nsi/img/cours/SD_T/pile.svg' %}" class="figure-img img-fluid" alt="pile">
+                <figcaption class="figure-caption">Principe d'une pile : l'élément e<sub>4</sub> rentré en dernier sort en premier</figcaption>
+            </figure>
+        </div>
+        <p>
+            Voici quelques exemples d'utilisaion d'une pile :
+        </p>
+        <ul>
+            <li>
+                dans un navigateur web, une pile sert à mémoriser les pages Web visitées. L'adresse de chaque nouvelle page visitée est empilée et l'utilisateur dépile l'adresse courante pour accéder à la page précédente en cliquant le bouton « Afficher la page précédente »;
+            </li>
+            <li>
+                la fonction « Annuler la frappe » (en anglais Undo) d'un traitement de texte mémorise les modifications apportées au texte dans une pile;
+            </li>
+            <li>
+                La plupart des microprocesseurs gèrent nativement une pile, qui s’avère être une structure de donnée indispensable dans les langages machine.
+            </li>
+        </ul>
+<h3>L'interface minimale du TDA <span class="pseudocode">Pile</span></h3>
+        <p>
+            L'interface, comprenant les quatre opérations suivantes, permet de définir complètement le TDA <span class="pseudocode">Pile</span> :
+        </p>
+        <ul>
+            <li>créer une pile vide : <span class="pseudocode">pileVide()</span>;</li>
+            <li>retirer et renvoyer l'élément au sommet de la pile (le terme exact est <strong>dépiler</strong> ou <strong>pop</strong> en anglais) : <span class="pseudocode">dépiler(p)</span> où p est une pile non vide;</li>
+            <li>ajouter un élément au sommet de la pile (le terme exact est <strong>empiler</strong> ou <strong>push</strong> en anglais) ; <span class="pseudocode">empiler(e,p)</span> où e est un élément et p une pile;</li>
+            <li>tester si une pile est vide : <span class="pseudocode">estVide(p)</span> où p est une pile</li>
+        </ul>
+        <p>
+            On ajoute une opération <span class="pseudocode">sommet(p)</span> qui renvoie l'élément au sommet de la pile p sans le retirer. Le code <span class="pseudocode">e=sommet(p)</span> est équivalent à <span class="pseudocode">e=dépiler(p)</span> suivi de <span class="pseudocode">empiler(e,p)</span>.
+        </p>
+        <p>
+            Pour créer une pile appelée <span class="pseudocode">mapile</span> dont le sommet est l'élément 'a' (caractère a) suivi de 'b' et 'c' ('c' étant le fond de la pile), on fera :
+        </p>
+        <ul>
+            <li>créer une pile vide : <span class="pseudocode">mapile = pileVide()</span>;</li>
+            <li>empiler 'c' : <span class="pseudocode">empiler('c',mapile)</span>;</li>
+            <li>empiler 'b' : <span class="pseudocode">empiler('b',mapile)</span>;</li>
+            <li>empiler 'a' : <span class="pseudocode">empiler('a',mapile)</span>.</li>
+        </ul>
+        <p>
+            On choisit de représenter cette pile par >'a','b','c') et la pile vide par >).
+        </p>
+        <p>
+            Dans le tableau suivant nous allons voir, à l'aide de quelques exemples, comment manipuler notre pile.
+        </p>
+        <div class="row">
+            <div class="col d-flex justify-content-center">
+                <table class="table table-striped w-auto">
+                    <thead>
+                        <tr>
+                            <th>Opération</th>
+                            <th>État de la pile aprés</th>
+                            <th>Valeur renvoyée par l'opération</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="pseudocode">empiler('e',mapile)</span></td>
+                            <td>>'e','a','b','c')</td>
+                            <td>rien</td>
+                        </tr>
+                        <tr>
+                            <td><span class="pseudocode">dépiler(mapile)</span></td>
+                            <td>>'a','b','c')</td>
+                            <td>'a'</td>
+                        </tr>
+                        <tr>
+                            <td><span class="pseudocode">dépiler(mapile)</span></td>
+                            <td>>'b','c')</td>
+                            <td>'a'</td>
+                        </tr>
+                        <tr>
+                            <td><span class="pseudocode">sommet(mapile)</span></td>
+                            <td>'b','c')</td>
+                            <td>'b'</td>
+                        </tr>
+                        <tr>
+                            <td><span class="pseudocode">dépiler(mapile)</span></td>
+                            <td>>'c')</td>
+                            <td>'b'</td>
+                        </tr>
+                        <tr>
+                            <td><span class="pseudocode">estVide(mapile)</span></td>
+                            <td>>'c')</td>
+                            <td>Faux</td>
+                        </tr>
+                        <tr>
+                            <td><span class="pseudocode">dépiler(mapile)</span></td>
+                            <td>>)</td>
+                            <td>'c'</td>
+                        </tr>
+                        <tr>
+                            <td><span class="pseudocode">estVide(mapile)</span></td>
+                            <td>>)</td>
+                            <td>Vrai</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <p>
+            Passons maintenant à l'implémentation de notre TDA <span class="pseudocode">Pile</span>.
+        </p>
+<h3>Implémentations</h3>
+        <p>
+            On peut implémenter le TDA <span class="pseudocode">Pile</span> avec des tableaux dynamiques ou des listes chainées avec une complexité temporelle (cout en temps) quasiment identique. Nous allons ici montrer une implémentation avec des tableaux dynamiques (type <code>list</code> Python) en utilisant le paradigme objet. Dans le TD sur les piles nous verrons comment faire avec des listes chainées.
+        </p>
+        <p>
+            Voici un exemple de code pour notre classe <code>Pile</code> qui implémente le TDA <span class="pseudocode">Pile</span> avec des listes Python.
+        </p>       
+        <div class="row justify-content-center mb-3">
+            <div class="col-8">
+                <pre><code>
+class Pile:
+    # Dans tous les cas le constructeur crée une pile vide.
+    # L'attribut elements est une liste python qui contient
+    # les éléments qui sont empilés. Elle est donc vide à la
+    # création d'une pile. 
+    def __init__(self):
+        self.elements = []
+    # Représentation de la pile sous la forme >elt1,elt2,...)
+    # où elt1 est le sommet de la pile.
+    def __repr__(self):
+        rep = '>'
+        # la pile vide
+        if not self.elements:
+            return rep + ')'
+        # parcours de la pile de la fin vers le début
+        for e in self.elements[::-1]:
+            rep += repr(e) + ', '
+        # rep[:-2] permet d'avoir une chaine sans les deux derniers élémnets
+        # qui sont un espace suivi d'une virgule
+        return rep[:-2]+')'
+    # Représentation de la pile pour l'affichage avec print par exemple 
+    def __str__(self):
+        ch = ''
+        l = 0
+        if not self.elements:
+            return 'La pile est vide'
+        for e in self.elements:
+            if len(str(e)) > l:
+                l = len(str(e))       
+        for e in self.elements:
+            ch = f"|  {e:^{l}}  |\n" + ch
+        ch += "".center(l+6,'-')
+        return ch
+    # Renvoie True si la pile est vide
+    # Rappel : [] utilisé dans une expression booléenne
+    # est converti en False
+    def estVide(self):
+        return not self.elements
+    # Empile un élément.
+    def push(self,e):
+        self.elements.append(e)
+    # Dépile.
+    def pop(self):
+        return self.elements.pop()
+    # Lit le sommet.
+    # Rappel = l'index -1 correspond au dernier élément
+    # de la liste python
+    def sommet(self):
+        return self.elements[-1]
+                </code></pre>
+            </div>
+        </div>
+    <p>
+        Dans cette classe, on a choisit d'implémenter la méthode <code>__repr__</code> avoir pour une représentation évaluable par l'interpréteur Python et la méthode <code>__str__</code> pour avoir une représentation agréable à afficher. 
+    </p>
+    <p>
+        On peut analyser et tester cette classe avec un petit programme principal dans la fenètre Python ci dessous.
+    </p>
+    <div class="row justify-content-center mb-3">
+        <div class="col-10">
+            <div class="embed-responsive embed-responsive-21by9">
+                <iframe class="embed-responsive-item" src="https://trinket.io/embed/python3/26709be3b2" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+<h2>Les files</h2>
+    <p>
+        Il faut se représenter une file comme une file d'attente ! On ne peut entrer dans la file qu'en dernière position et on ne peut en sortir que si on est le premier. L'ajout d'un élément dans une file ne peut se faire qu'à l'entrée (en dernière position) et le retrait d'un élément ne peut se faire qu'à la sortie (en première position). Les files sont fondées sur le principe <strong>FIFO</strong> (First In, First Out qui signifie « premier entré, premier sorti »). Bien sur tous les éléments d'une file sont du même type.
+    </p>
+    <div class="text-center">
+        <figure class="figure">
+            <img src="{% static 'nsi/img/cours/SD_T/file.svg' %}" class="figure-img img-fluid" alt="file">
+            <figcaption class="figure-caption">Principe d'une file : l'élément e<sub>0</sub> entré en premier sort en premier</figcaption>
+        </figure>
+    </div>
+    <p>
+        Les files sont très souvent utilisées comme des files d'attente en informatique. Voici quelques exemples d'utilisation d'une file :
+    </p>
+    <ul>
+        <li>
+            En général, on utilise des files pour mémoriser temporairement des transactions qui doivent attendre pour être traitées;
+        </li>
+        <li>
+            Une imprimante gère les tâches d'impression avec des files : chaque nouvelle tâche est insérée dans une file d'attente, et celles-ci sont traitées dans l'ordre d'arrivée;
+        </li>
+        <li>
+            Un système d'exploitation multitâche gère l'ordonnancement des processus (« programmes en cours d'exécution ») par des files.
+        </li>
+    </ul>
+<h3>L'interface minimale du TDA <span class="pseudocode">File</span></h3>
+    <p>
+        L'interface, comprenant les quatre opérations suivantes, permet de définir complètement le TDA <span class="pseudocode">Pile</span> :
+    </p>
+    <ul>
+        <li>créer une file vide : <span class="pseudocode">fileVide()</span>;</li>
+        <li>retirer et renvoyer l'élément à la sortie de la file (le terme exact est <strong>défiler</strong> ou <strong>dequeue</strong> en anglais) : <span class="pseudocode">défiler(f)</span> où f est une file non vide;</li>
+        <li>ajouter un élément à l'entrée de la file (le terme exact est <strong>enfiler</strong> ou <strong>enqueue</strong> en anglais) ; <span class="pseudocode">enfiler(e,f)</span> où e est un élément et f une file;</li>
+        <li>tester si une file est vide : <span class="pseudocode">estVide(f)</span> où f est une file</li>
+    </ul>
+    <p>
+        Pour créer une file appelée <span class="pseudocode">mafile</span> contenant les éléments 'a', 'b' et 'c' où 'a' est le premier entré (donc le premier à la sortie) et 'c' le dernier entré (celui à l'entrée), on fera :
+    </p>
+    <ul>
+        <li>créer une file vide : <span class="pseudocode">mafile = fileVide()</span>;</li>
+        <li>enfiler 'a' : <span class="pseudocode">enfiler('a',mafile)</span>;</li>
+        <li>enfiler 'b' : <span class="pseudocode">enfiler('b',mafile)</span>;</li>
+        <li>enfiler 'c' : <span class="pseudocode">enfiler('c',mafile)</span>.</li>
+    </ul>
+    <p>
+        On choisit de représenter cette file par >'c','b','a'> et la file vide par >>.
+    </p>
+    <p>
+        Dans le tableau suivant nous allons voir, à l'aide de quelques exemples, comment manipuler notre file.
+    </p>
+    <div class="row">
+        <div class="col d-flex justify-content-center">
+            <table class="table table-striped w-auto">
+                <thead>
+                    <tr>
+                        <th>Opération</th>
+                        <th>État de la file aprés</th>
+                        <th>Valeur renvoyée par l'opération</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="pseudocode">enfiler('e',mafile)</span></td>
+                        <td>>'e','c','b','a'></td>
+                        <td>rien</td>
+                    </tr>
+                    <tr>
+                        <td><span class="pseudocode">défiler(mafile)</span></td>
+                        <td>>'e','c','b'></td>
+                        <td>'a'</td>
+                    </tr>
+                    <tr>
+                        <td><span class="pseudocode">défiler(mafile)</span></td>
+                        <td>>'e','c'></td>
+                        <td>'b'</td>
+                    </tr>
+                    <tr>
+                        <td><span class="pseudocode">estVide(mafile)</span></td>
+                        <td>'e','c'></td>
+                        <td>Faux</td>
+                    </tr>
+                    <tr>
+                        <td><span class="pseudocode">enfiler(défiler(mafile),mafile)</span></td>
+                        <td>>'c','e'></td>
+                        <td>rien</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <p>
+        Passons maintenant à l'implémentation de notre TDA <span class="pseudocode">File</span>.
+    </p>
+<h3>Implémentations</h3>
+<p>
+    On peut implémenter le TDA <span class="pseudocode">File</span> avec un tableau dynamique ou une liste chainée. Pour des petites files cela est amplement suffisant. Par contre quand le nombre d'éléments est important cela pose un problème de complexité temporelle. En effet comme nous l'avons vu dans la partie sur les listes, pour ces deux sructures de données, à un bout, ajouter ou supprimer a un cout en \(O(n)\) (temps linéaire) et à l'autre en \(O(1)\) (temps constant). Or dans une file nous avons besoin d'ajouter d'un coté et de supprimer à un autre.
+</p>
+<p>
+    Pour résoudre ce problème et avoir un cout constant (en \(O(1)\)) à l'entrée et à la sortie (donc aux deux bouts) nous allons utilser une liste chainée « ameliorée » : une <stron>liste doublement chainée</stron>. En TD, nous verrons une autre façon de faire à l'aide deux piles.
+</p>
+<p>
+    En fait au lieu d'avoir une série de pointeurs, nous allons avoir deux séries de pointeurs, ce qui nou permettra de parcourir la chaîne dans les deux sens. Le schéma ci dessous pour la liste >'e','c','b','a'> va nous aider à mieux comprendre. Attention le sens des flèches n'indique pas le sens de « déplacement » des données mais le sens de la référence (une vers la cellule suivante et une vers la précédente). 
+</p>
+<div class="text-center">
+    <figure class="figure">
+        <img src="{% static 'nsi/img/cours/SD_T/fileLC.svg' %}" class="figure-img img-fluid" alt="fileLC">
+        <figcaption class="figure-caption">File implémentée avec une liste doublement chainée.</figcaption>
+    </figure>
+</div>
+<p>
+    Voici ci dessous un exemple d'implémentation du TDA <span class="pseudocode">File</span> avec une liste doublement chainée à laquelle on a ajouté une opération pour lire la sortie de la file sans la retirer et une opération pour avoir une représentation évaluable (la fameuse méthode <code>__repr__</code>).
+</p>        
+<div class="row justify-content-center mb-3">
+    <div class="col-8">
+        <pre><code>
+class Cellule:
+    def __init__(self,e,s,p):
+        self.element = e
+        self.suivant = s # reference vers la cellule suivant
+        self.precedent = p # reference vers la cellule précédente
+              
+class File:
+    # le constructeur par défaut crée une file vide >>
+    def __init__(self):
+        self.entree = None # référence vers l'entrée de la file
+        self.sortie = None # référence vers la sortie de la file                
+    # représentation de la file sous forme >elt1,elt2,..>
+    def __repr__(self):
+        if self.estVide():
+            return '>>'
+        rep = '>'
+        courant = self.entree
+        while courant:
+            rep += repr(courant.element) + ', '
+            courant = courant.suivant
+        return rep[:-2] + '>'    
+        # renvoie true si la file est vide
+    def estVide(self):
+        return not self.sortie            
+    # renvoie la sortie de la liste
+    def sortir(self):
+        return self.sortie.element    
+    # ajoute un élément e à l'entrée de la file
+    def enfiler(self,e):
+        if self.estVide():
+            self.sortie = self.entree = Cellule(e,None,None)
+        else:
+            c = Cellule(e,self.entree,None)
+            self.entree.precedent = c
+            self.entree = c        
+    # renvoie et retire l'élément à la sortie de la file
+    def defiler(self):
+        if self.entree == self.sortie:
+            e = self.sortie.element
+            self.entree = self.sortie = None
+            return e
+        else:
+            e = self.sortie.element
+            self.sortie = self.sortie.precedent
+            self.sortie.suivant = None
+            return e
+        </code></pre> 
+    </div>
+</div>
+<p>
+    Mainrenant nous pouvons tester notre classe <code>File</code> avec un petit programme principal dans la fenètre Pythpn ci dessous.
+</p>
+<div class="row justify-content-center mb-3">
+    <div class="col-10">
+        <div class="embed-responsive embed-responsive-21by9">
+            <iframe class="embed-responsive-item" src="https://trinket.io/embed/python3/610b915b43" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>
+        </div>
+    </div>
+</div>
+<h2>Conclusion</h2>
+    <p>
+        Nous venons de définir trois sructures de données linéaires avec différents types d'implémentations. Mais que faire si nous avons besoin de stuctures non linéaires ? Dans les exposés suivants nous répondrons à cette question en étudiant les <strong>arbres</strong> et les <strong>graphes</strong>.
+    </p>

@@ -1,0 +1,33 @@
+{% extends 'nsi/base.html' %}
+{% load static %}
+
+{% block title %}Cours{% endblock %}
+
+{% block jumbo %}{{ theme.name }}{% endblock %}
+
+{% block content %}
+
+    <div class="text-center">
+    {% if theme.image %}
+        <img class="img-fluid rounded pb-3" src="{% static 'nsi/img/' %}{{ theme.image }}" alt="image du thème">
+    {% endif %}
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            {% if theme.cours_set.all %}
+            <div class="list-group">
+                {% for cours in theme.cours_set.all %}
+                    <a href="{{ cours.get_absolute_url}}" class="list-group-item list-group-item-action">{{cours.name}}</a>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p>Désolé, pas de cours pour l'instant</p>
+            {% endif %}
+        </div>
+        <div class="col-md">
+            <p class="lead contenu px-3 py-2">{{ theme.descriptif|safe }}</p>
+        </div>
+    </div>
+
+
+{% endblock %}

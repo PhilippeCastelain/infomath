@@ -1,0 +1,340 @@
+{% load static %}
+<h1>{{cours.name}}</h1>
+<h2>Introduction</h2>
+    <p>
+        Au début était le nombre UN. J'ai échangé \(IIII\) poules contre \(III\) lapins. On parle de <strong>système unaire</strong>.</p>
+    <p>
+        Dès que les nombres deviennent un peu grand, ce système est peu pratique. On a donc penser à regrouper les unités en paquets de même taille que l'on appelle la <strong>base</strong>. Par exemple \(X=IIIIIIIIII\). Au lieu d'écrire \(IIIIIIIIIIIIIIIIIIIIIII\) poules, on écrira \(XXIII\) poules. On a ici utilisé un <strong> système de numération additionnelle</strong> où l'on additionne la valeur de chaque symbole pour obtenir le nombre. Si on pose \(C=XXXXXXXXXX\),, on a alors : $$CCXXXII=100+100+10+10+10+1+1=232.$$ 
+    </p>
+    <p>
+        Dans ce système, plus les nombres deviennent grands, plus il faut inventer de nouveaux symboles. Pour palier à ce problème, on a donc introduit le <strong>système de numération positionnelle</strong>. Dans ce système, on dispose d'un nombre limité (égale à la base) de symboles, appelés les chiffres, dont la position dans l'écriture du nombre indique la valeur. 
+    </p>
+    <p>
+        C'est ce système que nous étudierons ici.
+    </p>
+<h2>Le système décimal</h2>
+    <p>
+        C'est le système appris depuis la maternelle et basé sur la base 10. On a donc besoin de dix chiffres : $$0,1,2,3,4,5,6,7,8,9.$$
+    </p>
+    <ul>
+        <li>Le chiffre le plus à droite correspond aux unités;</li>
+        <li>un rang vers la gauche, on a le chiffre correspondant à des groupes de dix unités : les dizaines;</li>
+        <li>encore un rang vers la gauche, on a le chiffre correspondant à des groupes de dix dizaines (ou cent unités) : les centaines;</li>
+        <li>etc.</li>
+    </ul>
+    <p>
+        Considérons le nombre \(2543_{10}\) (l'indice correspond à la base de numération que l'on peut omettre dans le cas de 10 ou quand il n'y a pas d'ambiguité). Il est composé de deux groupes de mille unités, cinq groupes de cent, quatre de dix et trois unités. Plus précisemment on a, par exemple : 
+        $$\eqalign{
+            2543 &= 2\times1000+5\times100+4\times10+3\cr
+                        &= 2\times10^3+5\times10^2+4\times10^1+3\times10^0.
+        }$$
+    </p>
+    <p>
+        De manière plus générale, soit \(d_{p-1}d_{p-2}\dots d_1d_0\) l'écriture décimale avec p chiffres d'un nombre entier naturel n où chaque \(d_i\in\{0,1,\dots,9\}\) et \(d_{p-1}\ne0\). On a alors :
+        $$n=d_{p-1}\times10^{p-1}+d_{p-2}\times10^{p-2}+\cdots+d_1\times10^1+d_0\times10^0.$$ 
+    </p>
+
+<h2>Le système binaire</h2>
+    <p>
+        C'est le système de numération basé sur la base 2. On a donc besoin de deux chiffres :$$\tt 0,1.$$
+        Au lieu de regrouper par dix, on regroupe par deux. Un chiffre binaire s'appelle un <strong>bit</strong>.
+    </p>
+    <ul>
+        <li>Le chiffre le plus à droite correspond aux unités;</li>
+        <li>un rang vers la gauche, on a le chiffre correspondant à des groupes de deux unités;</li>
+        <li>encore un rang vers la gauche, on a le chiffre correspondant à des groupes de quatre unités (deux groupes de deux);</li>
+        <li>puis le chiffre correspondant à des groupes de huit unités (deux groupes de quatre);
+        <li>etc.</li>
+    </ul>
+    <p>
+        Considérons le nombre \(\tt 101101_2\). Il est composé d'un groupe de trente-deux unités, d'un groupe de huit, d'un groupe de quatre et de une unité. Plus précisemment on a, par exemple : 
+        $$\eqalign{
+            \tt 101101_{2}  &= 1\times32+0\times16+1\times8+1\times4+0\times2+1\cr
+                       &= 1\times2^5+0\times2^4+1\times2^3+1\times2^2+0\times2^1+1\times2^0.
+        }$$
+        Donc \({\tt101101_2}=45\).
+    </p>
+    <p>
+        De manière plus générale, soit \((b_{p-1}b_{p-2}\dots b_1b_0)_2\) l'écriture binaire avec p chiffres d'un nombre entier naturel n où chaque \(b_i\in\{{\tt 0,1}\}\) et \(b_{p-1}\ne0\). On a alors :
+        $$n=b_{p-1}\times2^{p-1}+b_{p-2}\times2^{p-2}+\cdots+b_1\times2^1+b_0\times2^0.$$
+        Cette formule permet donc de convertir l'écriture binaire en écriture décimale. 
+    </p>
+<h2>Le système hexadécimal</h2>
+    <p>
+        C'est le système de numération basé sur la base \(16\). On a donc besoin de seize chiffres : $$\tt 0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F.$$
+        Le chiffre \(\tt A\) en hexadécimal vaut \(10\) en décimal, \(\tt B\) vaut \(11\), \(\tt C\) vaut \(12\), \(\tt D\) vaut \(13\), \(\tt E\) vaut \(14\) et \(\tt F\) vaut \(15\).
+        Au lieu de regrouper par dix ou deux, on regroupe par seize.
+    </p>
+    <ul>
+        <li>Le chiffre le plus à droite correspond aux unités;</li>
+        <li>un rang vers la gauche, on a le chiffre correspondant à des groupes de seize unités;</li>
+        <li>encore un rang vers la gauche, on a le chiffre correspondant à des groupes de deux cent cinquante six unités (seize groupes de seize);</li>
+        <li>etc.</li>
+    </ul>
+    <p>
+        Considérons le nombre \(\tt 7E4_{16}\). Il est composé de sept groupes de deux cent cinquante six unités, de quatorze groupes de seize et de quatre unités. Plus précisemment on a, par exemple : 
+        $$\eqalign{
+            \tt 7E4_{16} &= 7\times256+14\times16+4\cr
+                       &= 7\times16^2+14\times16^1+4\times16^0.
+        }$$
+        Donc \({\tt7E4_{16}}=2020\).
+    </p>
+    <p>
+        De manière plus générale, soit \((h_{p-1}h_{p-2}\dots h_1h_0)_{16}\) l'écriture hexadécimale avec p chiffres d'un nombre entier naturel n où chaque \(h_i\in\{{\tt 0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F}\}\) et \(h_{p-1}\ne0\). On a alors :
+        $$n=h_{p-1}\times16^{p-1}+h_{p-2}\times16^{p-2}+\cdots+h_1\times16^1+h_0\times16^0.$$
+        Cette formule permet donc de convertir l'écriture hexadécimale en écriture décimale. 
+    </p>
+    <p>
+        L'intéret de l'hexadécimal est que 16 est une puissance de 2 (\(16=2^4\)). Un chiffre hexadécimal est donc codé avec 4 bits.
+    </p> 
+    <div class="row">
+        <div class="col d-flex justify-content-end">
+            <table class="table table-bordered table-sm w-auto">
+                <thead>
+                    <tr>
+                        <th>Hexa</th>
+                        <th>Binaire</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>\(\tt 0\)</td>
+                        <td>\(\tt 0000\)</td>
+                    </tr>
+                    <tr>
+                        <td>\(\tt 1\)</td>
+                        <td>\(\tt 0001\)</td>
+                    </tr>
+                    <tr>
+                        <td>\(\tt 2\)</td>
+                        <td>\(\tt 0010\)</td>
+                    </tr>
+                    <tr>
+                        <td>\(\tt 3\)</td>
+                        <td>\(\tt 0011\)</td>
+                    </tr>
+                    <tr>
+                        <td>\(\tt 4\)</td>
+                        <td>\(\tt 0100\)</td>
+                    </tr>
+                    <tr>
+                        <td>\(\tt 5\)</td>
+                        <td>\(\tt 0101\)</td>
+                    </tr>
+                    <tr>
+                        <td>\(\tt 6\)</td>
+                        <td>\(\tt 0110\)</td>
+                    </tr>
+                    <tr>
+                        <td>\(\tt 7\)</td>
+                        <td>\(\tt 0111\)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col d-flex justify-content-start">
+            <table class="table table-bordered table-sm w-auto">
+                <thead>
+                    <tr>
+                        <th>Hexa</th>
+                        <th>Binaire</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>\(\tt 8\)</td>
+                        <td>\(\tt 1000\)</td>
+                    </tr>
+                    <tr>
+                        <td>\(\tt 9\)</td>
+                        <td>\(\tt 1001\)</td>
+                    </tr>
+                    <tr>
+                        <td>\(\tt A\)</td>
+                        <td>\(\tt 1010\)</td>
+                    </tr>
+                    <tr>
+                        <td>\(\tt B\)</td>
+                        <td>\(\tt 1011\)</td>
+                    </tr>
+                    <tr>
+                        <td>\(\tt C\)</td>
+                        <td>\(\tt 1100\)</td>
+                    </tr>
+                    <tr>
+                        <td>\(\tt D\)</td>
+                        <td>\(\tt 1101\)</td>
+                    </tr>
+                    <tr>
+                        <td>\(\tt E\)</td>
+                        <td>\(\tt 1110\)</td>
+                    </tr>
+                    <tr>
+                        <td>\(\tt F\)</td>
+                        <td>\(\tt 1111\)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div> 
+    <p>
+        Pour convertir un nombre écrit en hexadécimal en binaire, on remplace chaque chiffre hexadécimal par son écriture binaire : $$\tt B5F_{16}=1011\ 0101\ 1111_2=101101011111_2.$$
+    </p>
+    <p>
+        Pour convertir un nombre écrit en binaire en hexadécimal, on regroupe les bits par quatre en partant de la droite en ajoutant des zéros à gauche si besoin est. Puis on remplace chaque groupe par le chiffre hexadécimal correspondant : $$\tt 1111110_2=0111\ 1110_2=7E_{16}.$$
+    </p>
+<h2>Base \(b\) quelconque</h2>
+    <p>
+        Dans un système de numération en base <i>b</i> entier tel que \(b \geqslant 2\), on a besoin de <i>b</i> chiffres. 
+    </p>
+    
+    <ul>
+        <li>Le chiffre le plus à droite correspond aux unités;</li>
+        <li>un rang vers la gauche, on a le chiffre correspondant à des groupes de <i>b</i> unités;</li>
+        <li>encore un rang vers la gauche, on a le chiffre correspondant à des groupes de \(b\times b\) unités (<i>b</i> groupes de <i>b</i>;</li>
+        <li>etc.</li>
+    </ul>
+    <p>
+        Voici quelques exemples :
+    </p>
+    <div class="table-responsive">
+    <table class="table table-bordered table-sm">
+        <thead>
+            <tr>
+                <th>Système de numération</th>
+                <th>Chiffres</th>
+                <th>Un nombre</th>
+                <th>Conversion en décimale</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Ternaire</td>
+                <td>\(\tt 0,1,2\)</td>
+                <td>\(\tt 12012_3\)</td>
+                <td>\(1\times3^4+2\times3^3+0\times3^2+1\times3^1+2\times3^0=140\)
+            </tr>                    
+            <tr>
+                <td>Octale</td>
+                <td>\(\tt 0,1,2,3,4,5,6,7\)</td>
+                <td>\(\tt 214_8\)</td>
+                <td>\(2\times8^2+1\times8^1+4\times8^0=140\)
+            </tr>
+        </tbody>
+    </table>
+    </div>
+<h2>Conversion d'un nombre en base 10 vers un nombre en base \(b\)</h2>
+    <p>
+        On va utiliser la méthode des divisions euclidiennes. Pour être plus précis, on peut même parler de l'algorithme des divisions euclidiennes.
+    </P>
+    <p>
+        On va expliquer cette méthode pour la conversion en binaire :
+    </p>
+    <ul>
+        <li>on prend le nombre en base 10;
+        <li>on le divise par 2 et on note le reste de la division;</li>
+        <li>on refait la même chose avec le quotient obtenu précédemment, et on met de nouveau le reste de côté;</li>
+        <li>on réitère la division, jusqu'à ce que le quotient soit 0;
+        <li>le nombre en binaire est alors la suite de tous les restes de bas en haut.
+    </ul>
+    <p>
+        Et maintenant un exemple pour mieux comprendre :
+        $$\eqalign{
+            177 &= 2\times 88+{\color{red} 1}\cr
+            88  &= 2\times 44+{\color{red} 0}\cr 
+            44  &= 2\times 22+{\color{red} 0}\cr
+            22  &= 2\times 11+{\color{red} 0}\cr
+            11  &= 2\times 5+{\color{red} 1}\cr
+            5   &= 2\times 2+{\color{red} 1}\cr
+            1   &= 2\times 0+{\color{red} 1}.
+        }$$
+        Donc \(177={\tt 1110001_2}\).
+    </p>
+    <p>
+        Dans le cas d'une base <i>b</i> quelconque, on divise par <i>b</i>. Pour une conversion en hexadécimal, on divise donc par 16 :
+        $$\eqalign{
+            193 &= 16\times 12+{\color{red} 1}\cr
+            12  &= 16\times 0+{\color{red} 12}.
+        }$$
+        Donc \(193={\tt C1_{16}}\) (le reste 12 donne le chiffre \(\tt C\) en hexadécimal).
+    </p>
+    <h2>Codage des nombres entiers positifs (ou non signés)</h2>
+        <p>
+            D'un point de vue pratique, un système informatique (et plus généralement numérique) est un ensemble de composants électroniques pouvant refléter deux états symbolisés par \(\tt 0\) et \(\tt 1\) appelés bits et dont le symbole est <strong>b</strong>. Donc toute information dans ces systèmes est codée par une suite <strong>finie</strong> de bits (appelée <strong>mot</strong>) et dont la longueur a été décidée par une convention.
+            De nos jours, tous les mots utilisés sont des multiples de huit bits. Un mot de huit bits s'appelle un <strong>octet</strong> (symbole <strong>o</strong>). On peut donc avoir des mots de 8,16,32,64,\dots bits.
+        </p>
+        <p>
+            A l'origine, un <strong>byte</strong> était le plus petit groupe de bits auquel on pouvait accéder directement dans la mémoire. Dans les années 1960, il n'était pas rare d'avoir un byte de 6 ou 9 bits. A l'heure actuelle, on a normalisé la taille du byte à 8 bits et l'on confond souvent, par abus de langage, byte (symbole <strong>B</strong>) et octet.
+        </p>
+        <p>
+            Pour coder les nombres entiers positifs, la plupart des systèmes utilise le système de numération binaire vu plus haut. Il existe d'autres codages possibles comme le <a href="https://fr.wikipedia.org/wiki/Code_de_Gray">code de Gray</a> ou le <a href="https://fr.wikipedia.org/wiki/D%C3%A9cimal_cod%C3%A9_binaire">Décimal Codé Binaire</a>. 
+        </p>
+        <p>
+            Étant donné que l'on code les entiers positifs sur des mots de taille finie, on écrit tous les bits de ces mots en mettant à zéro les bits inutilisés dans l'écriture binaire. Par exemple, le nombre \(\tt 1011110_2\) (94 en décimal) est codé sur huit bits par \(\tt 01011110_2\), sur seize bits par \(\tt 0000000001011110_2\).
+        </p>
+        <p>
+            Dans un mot de n bits, le bit le plus à droite (de rang 0) s'appelle le <strong>bit de poids faible</strong> (LSB : Least Significant Bit). Le bit le plus à gauche (de rang n-1) s'appelle le <strong>bit de poids fort</strong> (MSB : Most Significant Bit).
+        </p>
+        <div class="text-center">
+            <figure class="figure">
+                <img src="{% static 'nsi/img/cours/RD/octet.svg' %}" class="figure-img img-fluid" alt="Octet">
+                <figcaption class="figure-caption">Codage sur un octet.</figcaption>
+            </figure>
+        </div>
+        <p>
+            Avec huit bits, il y a \(2\times2\times2\times2\times2\times2\times2\times2=2^8=256\) suites de bits possibles de \(\tt 00000000_2\) à \(\tt 111111111_2\). On peut donc coder 256 nombres entiers positifs sur un octet de 0 à 255.
+            En général, avec un mot de n bits, on peut coder 2<sup>n</sup> nombres entiers positifs de 0 à 2<sup>n-1</sup>.
+        </p>
+    <h2>Arithmétique binaire et codage</h2>
+        <p>En aritmétique binaire, les quatre opérations s'effectuent de la même façon qu'en décimal.
+            <table class="table table-bordered table-sm w-auto mx-auto">
+                <thead>
+                    <tr>
+                        <th>Addition</th>
+                        <th>Multiplication</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>\(\tt 0_2+0_2=0_2\)</td>
+                        <td>\(\tt 0_2\times0_2=0_2\)</td>
+                    </tr>
+                    <tr>
+                        <td>\(\tt 0_2+1_2=1_2\)</td>
+                        <td>\(\tt 0_2\times1_2=0_2\)</td>
+                    </tr>
+                    <tr>
+                        <td>\(\tt 1_2+1_2=10_2\) ou \(\tt0_2\) et on retient \(\tt1_2\)</td>
+                        <td>\(\tt 1_2\times1_2=1_2\)</td>
+                    </tr>
+                </tbody>
+            </table>
+            Par exemple, on pose les opérations de la même façon qu'en décimal:
+            <div class="text-center">
+                <figure class="figure">
+                    <img src="{% static 'nsi/img/cours/RD/op_binaire.svg' %}" class="figure-img img-fluid" alt="Opération binaire">
+                    <figcaption class="figure-caption">Addition et multiplication binaire.</figcaption>
+                </figure>
+            </div>
+            Donc \(\tt 111001_2+11011_2=1010100_2\) (57 + 27 = 84) et \(\tt 110_2\times 101_2=11110_2\) (6 x 5 = 30).
+        </p>
+        <p>
+            Effectuons maintenant une addition sur deux nombres entiers positifs codés sur, par exemple, un octet. Deux cas peuvent alors se présenter:
+        </p>
+        <div class="row">
+            <div class="col d-flex justify-content-center text-center">
+                <figure class="figure">
+                    <img src="{% static 'nsi/img/cours/RD/add_octet_ok.svg' %}" class="figure-img img-fluid" alt="Addition octet correcte">
+                    <figcaption class="figure-caption">Résultat correct sur un octet.</figcaption>
+                </figure>
+            </div>
+            <div class="col d-flex justify-content-center text-center">
+                <figure class="figure">
+                    <img src="{% static 'nsi/img/cours/RD/add_octet_deb.svg' %}" class="figure-img img-fluid" alt="Addition octet débordement">
+                    <figcaption class="figure-caption">Résultat incorrect sur un octet (débordement).</figcaption>
+                </figure>
+            </div>
+        </div>
+        <p>
+            Dans le premier cas \(\tt 10011001_2+01011011_2=11110100_2\) (153 + 91 = 244), la somme est bien codée sur un octet. Par contre, dans le deuxième cas, la somme nécessite neuf bits pour être codée et ne peut donc pas être représenter sur un octet. Sur un octet on obtient \(\tt 10011001_2+11011011_2=01110100_2\) (153 + 219 = 116 au lieu de 372) On dit qu'il y a <strong>débordement</strong> (overflow). Il est du au bit de retenue de la somme des bits de poids forts.
+        </p>

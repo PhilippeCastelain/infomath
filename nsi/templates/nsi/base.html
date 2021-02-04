@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <title>{% block title %}Accueil NSI{% endblock %}</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1 shrink-to-fit=no">
+        <link rel="stylesheet" href="{% static 'nsi/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'nsi/css/base.css' %}">
+        <script id="MathJax-script" async src="{% static 'nsi/mathjax/tex-chtml.js' %}"></script>
+    </head>
+
+    <body class="fond">
+        <nav class="navbar navbar-expand-md bg-light navbar-light fixed-top">
+            <a class="nav-brand" href="{% block url %}{% url 'nsi:home' %} {% endblock %}">{% block home %}Accueil NSI{% endblock %}</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#MyMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse justify-content-end" id="MyMenu">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="themedrop" data-toggle="dropdown">Themes</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{% url 'nsi:themes-niveau' niveau='P' %}">Première</a>
+                        <a class="dropdown-item" href="{% url 'nsi:themes-niveau' niveau='T' %}">Terminale</a>
+                        <a class="dropdown-item" href="{% url 'nsi:themes-niveau' niveau='A' %}">Approfondissement</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'nsi:themes' %}">Tous les thèmes</a>
+                    </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Projets</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="jumbotron jumbofond mt-6">
+                <h1 class="display-4"> Numérique et Science Informatique</h1>
+                <h1>{% block jumbo %}Présentation générale{% endblock %}</h1>
+                <p class="lead">La spécialité du 22<sup>ème</sup> siècle</p>
+            </div>
+        </div>
+
+        <div class="container pb-3 px-5 min-vh-100">
+            {% block content %}{% endblock %}
+        </div>
+
+        <nav class="navbar navbar-expand-md bg-light navbar-light justify-content-center"> 
+            <span class="navbar-text">
+                Lycée Dick Ukeiwé 2020
+            </span>
+        </nav> 
+        <script src="{% static 'nsi/js/jquery.min.js' %}"></script>
+        <script src="{% static 'nsi/js/bootstrap.bundle.min.js' %}"></script>
+    </body>
+</html>

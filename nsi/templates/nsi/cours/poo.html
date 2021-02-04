@@ -1,0 +1,430 @@
+{% load static %}
+<h1>{{cours.name}}</h1>
+<h2>Introduction</h2>
+    <p>
+        En première, nous avons programmé en utilisant deux styles de progammation (<strong>paradigmes</strong>) :
+    </p>
+    <ul>
+        <li>le style <strong>impératif</strong> : on exécute des instructions les unes aprés les autres;</li>
+        <li>le style <strong>procédural</strong> : on définit et utilise des fonctions qui exécute des taches précises (ce sont des blocs de codes réutilisables).</li>
+    </ul>
+    <p>
+        Nous allons ici découvrir un nouveau paradigme : le <strong>paradigme objet</strong>. Lorsqu'on l'utilise, on parle de <strong>programmation objet</strong> ou de <strong>programmation orientée objet</strong> (POO en abrégé).
+    </p>
+    <p>
+        Cette année, nous nous limiterons à une brève introduction de la programmation orientée objet en utilisant comme langage Python.
+    </p>
+<h2>Les grands principes de la POO</h2>
+    <p>
+        La programmation orientée objet est basée sur la notion d'<strong>objet</strong> et sur le fait de faire interagir différents objets entre eux ou avec le monde extérieur (au programme) afin d'obtenir les résultats désirés.
+    </p>
+    <p>
+        Un objet est une structure de données qui regroupe :
+    </p>
+    <ul>
+        <li>des données appelées <strong>attributs</strong> qui définissent l'état de l'objet;</li>
+        <li>des fonctions appelées <strong>méthodes</strong>, qui constituent l'interface de cet objet et définissent son comportement.</li>
+    </ul>
+    <p>
+        On peut citer quelques avantages de la POO :
+    </p>
+    <ul>
+        <li>on regroupe dans une seule structure à la fois les données et les fonctions permettant d'interagir avec ces données ce qui permet de créer des programmes plus clairs, mieux structurés, plus modulables et plus faciles à maintenir et à déboguer;</li>
+        <li>ce regroupement permet notamment de <strong>cacher</strong> les détails de l'implémentation de l'objet à l'utilisateur. Cela offre une grande souplesse au programmeur qui peut complètement changer ces détails d'implémentations sans affecter l'interface de l'objet. Ce concept très important s'appelle l'<strong>encapsulation</strong>;</li>
+        <li>c'est un outil trés pratique pour implémenter les types de données abstraits.</li>
+    </ul>
+    <p>
+        Mais comment fait-on pour créer un objet et quel son type ? Tout simplement à l'aide d'une <strong>classe</strong> (mot clé <code>class</code> en Python) qui va servir de modèle pour créer des objets. Si on créer un objet à l'aide d'une classe particulière, on dit que cet objet est une <strong>instance</strong> de cette classe (on parle d'<strong>instanciation</strong>). En Python la classe d'un objet correspond réellement à son type. En fait quand on définit une classe, on définit un nouveau type de données.
+    </p>
+    <p>
+        Par exemple une voiture peut être considérée comme un objet. On peut lui associer des informations comme sa couleur, sa marque et son modèle : il s'agit des attributs de notre objet. On peut également définir des mécanismes concernant cet objet : démarrer, accélérer, freiner, klaxonner : il s'agit des méthodes s'appliquant sur notre objet.
+        Pour créer ces objets voitures, on va définir une classe <code>Voiture</code> (On utilise la convention Python en mettant une majuscule au débuts des noms de classe). On obtient le schéma suivant :        
+    </p>
+    <div class="text-center">
+        <figure class="figure">
+            <img src="{% static 'nsi/img/cours/SD_T/classe_voiture.svg' %}" class="figure-img img-fluid" alt="La classe voiture">
+            <figcaption class="figure-caption">La classe <code>Voiture</code>.</figcaption>
+        </figure>
+    </div>
+    <p>
+        Des instances de la classe <code>Voiture</code> (des objets de type <code>Voiture</code>) sont, par exemple :
+    </p>
+    <ul>
+        <li>voiture_de_paul : couleur='jaune', marque='Renault', modèle='Clio';</li>
+        <li>auto_de_Jean : couleur='rouge', marque='BMW', modèle='Z3'.</li>
+    </ul>
+    <p>
+        En Python, comme dans beaucoup d'autres langages, on utilise la <strong>notation pointée</strong> pour accéder aux attributs ou aux méthhodes d'un objet. Ainsi, en utilisant l'exemple précédent on pourrait écrire :
+    </p>
+    <ul>
+            <li>voiture_de_paul.couleur vaut 'jaune';</li>
+            <li>auto_de_jean.démarrer() démarre auto.de.jean.</li>
+    </ul>
+    <h2>Objets et classes en Python</h2>
+        <p>
+            Tout d'abord, rappelons le fait que tout en Python est objet, même les types de base comme les entiers ou les booléens. Par exemple les entiers sont des objets de la classe <code>int</code>. On peut s'en apercevoir en testant le type de certaines valeur en tapant <code>type(valeur ou nom_variable)</code> (par exemple <code>type([1,2,3])</code>). On peut aussi accéder aux attributs et aux méthodes d'un objet en tapant <code>dir(valeur ou nom_variable)</code>. On y accède en utilisant la notation pointée. On peut tester ces instructions dans la console python ci-dessous.
+        </p>
+        <div class="row justify-content-center mb-3">
+            <div class="col-6">
+                <div class="embed-responsive embed-responsive-21by9">
+                    <iframe class="embed-responsive-item" src="https://trinket.io/embed/python3/f4446e0697?runOption=console&runMode=console" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+        <p>
+            On constate aussi qu'il y a de nombreuses méthodes dont le nom est encadré d'un double underscore (__). C'est ce que l'on appelle en Python des <strong>méthodes spéciales</strong>. Nous reviendrons sur quelques-unes d'entre elles un peu plus tard.
+        </p>
+        <p>
+            Pour créer une classe en Python, on utilise le code suivant :
+        </p>    
+        <div class="row justify-content-center mb-3">
+            <div class="col-8">
+                <pre><code>
+class MaClasse(object):
+    # bloc d'instruction de la classe
+# à partir de cette ligne, la définition de la classe est terminée
+# ou alors on peut écrire
+class MaClasse():
+    # bloc d'instruction de la classe
+# à partir de cette ligne, la définition de la classe est terminée
+# ou même
+class MaClasse:
+    # bloc d'instruction de la classe
+# à partir de cette ligne, la définition de la classe est terminée
+                 </code></pre>
+            </div>
+        </div>
+        <p>
+            Une question se pose : qu'est ce que cet <code>object</code> dans la première définition ? En fait en Python toutes les classes dépendent d'une « super classe » qui est la classe <code>object</code>. Écrire <code>class MaClasse(object)</code> revient à dire quec la classe <code>MaClasse</code> possédera toutes les caractéristiques (attributs et méthodes : les fameux noms entourés de __) de la « super classe » <code>object</code>. On rajoutera ensuite des caractéristiques propres la classe <code>MaClasse</code>.
+        </p>
+        <p>
+            En POO, on dit que la classe <code>MaClasse</code> <strong>hérite</strong> de la classe <code>object</code> (la notion d'<strong>hétitage</strong> est hors programme). On dit aussi que <code>object</code> est la <strong>classe mère</strong> de <code>MaClasse</code> ou que <code>MaClasse</code> est une <strong>classe fille</strong> de <code>object</code>.
+        </p>
+        <p>
+            En Python, passer <code>object</code> en argument est redondant et inutile. En effet le mot réservé <code>class</code>, appelle justement <code>object</code> pour pouvoir créer <code>MaClasse</code>. Informatiquement, on dirait les choses comme ceci : « Quand on écrit le mot réservé <code>class</code>, on hérite obligatoirement de la « super classe » <code>object</code> ».
+        </p>
+    <h3>Un exemple de classe : la classe <code>Personnage</code></h3>
+    <!--<p>
+        Un grand merci à David Roche, concepteur du site <a href="https://pixees.fr/informatiquelycee/" target="_blank">pixees</a>.
+    </p>-->
+        <p>
+            Nous allons construire pas à pas une classe <code>Personnage</code> qui va permettre de modéliser les personnages du « Seigneur des anneaux » et les faire interagir.
+        </p>
+        <p>
+            À chaque étape, nous allons améliorer la façon de construire notre classe en éliminant, si besoin est, les mauvaises façons de faire en POO.
+        </p>
+    <h4>Étape 1 : création de la classe et de deux instances</h4>
+        <p>Voici le code de base que nous allons petit à petit transformer et améliorer.</p>   
+        <div class="row justify-content-center mb-3">
+            <div class="col-8">
+                <pre><code>
+# Définition de la classe Personnage
+class Personnage(object):
+    # Pour l'instant cette classe est une coquille vide,
+    # mais comme elle doit contenir une instruction
+    # nous mettons l'instruction pass qui ne fait rien,
+    # mais permet l'exécution du programme 
+    # sans provoquer d'erreurs !
+    pass
+# On crée une instance de la classe Personnage
+# nommée gollum (plus d'indentation car
+# la définition de la classe est terminée)
+gollum = Personnage()
+# On crée une autre instance de la classe Personnage
+# nommée bilbo
+bilbo = Personnage()
+                 </code></pre>
+            </div>
+        </div>
+        <p>
+            On voit que pour créer une instance de classe (un objet), on utilise une syntaxe similaire à un appel de fonction : le nom de la classe suivi d'une paire de parnthèses. Ainsi la ligne <code>gollum=Personnage()</code> veut tout simplement dire : « crée une instance de la classe <code>Personnage</code> et nomme la <code>gollum</code> ».
+        </p>
+        <p>
+            On peut tester et analyser le code dans la fenètre Python ci dessous.
+        </p>
+        <div class="row justify-content-center mb-3">
+            <div class="col-8">
+                <div class="embed-responsive embed-responsive-21by9">
+                    <iframe class="embed-responsive-item" src="https://trinket.io/embed/python3/29dbdd4315" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    <h4>Étape 2 : ajout d'un attribut</h4>
+        <p>
+            Comme expliqué plus haut, un objet possède des attributs (et des méthodes). Nous allons associer un attribut <code>vie</code> à notre classe Personnage (chaque instance aura un attribut <code>vie</code> qui, arrivé à zéro, signifiera la mort du personnage!).
+        </p>
+        <p>
+            Ces attributs s'utilisent comme des variables. Ainsi l'attribut <code>vie</code> sera noté :
+        </p>
+        <ul>
+            <li>pour gollum : <code>gollum.vie</code>;</li>
+            <li>pour bilbo : <code>bilbo.vie</code>.</li>
+        </ul>
+        <p>
+            Voici le code incluant l'attribut <code>vie</code> pour gollum et bilbo.
+        </p>   
+        <div class="row justify-content-center mb-3">
+            <div class="col-8">
+                <pre><code>
+# Définition de la classe Personnage
+class Personnage(object):  
+    pass              
+# Une instance de la classe Personnage nommée gollum
+gollum = Personnage()  
+# On donne 20 poins de vie à Gollum en créant
+# un attribut vie pour l'instance gollum
+gollum.vie = 20                    
+# Une autre instance de la classe Personnage nommée bilbo
+bilbo = Personnage()  
+# on donne 20 points de vie à Bilbo
+bilbo.vie = 20                    
+# Affichage du nombre de points de vie pour Bilbo
+print ('Bilbo a ' + str(bilbo.vie) + ' points de vie')                     
+# Affichage du nombre de points de vie pour Gollum
+print ('Gollum a ' + str(gollum.vie) + ' points de vie')                    
+# Bilbo est blessé, il perd un point de vie  
+print ('Bilbo est blessé par Gollum')
+bilbo.vie = bilbo.vie - 1                      
+# On affiche de nouveau les points de vie
+print ('Bilbo a ' + str(bilbo.vie) + ' points de vie')  
+print ('Gollum a ' + str(gollum.vie) + ' points de vie')                    
+                 </code></pre>
+            </div>
+        </div>
+        <p>
+            On peut tester et analyser le code dans la fenètre Python ci dessous.
+        </p>
+        <div class="row justify-content-center mb-3">
+            <div class="col-10">
+                <div class="embed-responsive embed-responsive-21by9">
+                    <iframe class="embed-responsive-item" src="https://trinket.io/embed/python3/4c9eb6c2c5" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+        <p>
+            Ce code fonctionne trés bien mais ferait hurler n'importe quel programmeur un tant soit peu au courant de la POO ! En effet, on ne respecte pas un de ses principes fondamentaux, dont on a déjà  parlé, l'<strong>encapsulation</strong>.
+        </p>
+        <p>
+            En effet, un objet (une instance de classe) et donc une classe peuvent être vus comme des « boites noires ». L'utilisateur de la classe (ou des instances) veut pouvoir l'utiliser facilement sans se préoccuper de ce qu'il y a à l'intérieur. Ici ce n'est pas vraiment le cas puisque l'on crée l'attribut <code>vie</code> aprés avoir créer les instances de la classe <code>Personnage</code>. 
+        </p>
+        <p>
+            De plus, tous les personnages peuvent mourir et doivent donc posséder un attribut <code>vie</code>. Il est donc logique que cette donnée fasse partie du modèle des personnages (la classe <code>Personnage</code>).
+        </p>
+        <p>
+            Pour résoudre ce problème, nous allons définir les attributs dans la classe, à l'aide d'une méthode d'initialisation des attributs. On appellera cette méthode le <strong>constructeur</strong> de la classe
+        </p>
+    <h4>Étape 3 : le constructeur</h4>
+        <p>
+            Le constructeur d'une classe est une des méthodes spéciales héritées de la classe <code>object</code> : la méthode <code>__init__</code>. Elle est appelée lorsque l'on crée une nouvelle instance de classe. c'est cette méthode que l'on va redéfinir (on dit <strong>surcharger</strong> en POO) pour définir et initialiser lest attributs.
+        </p>
+        <p>
+            En fait, le constructeur est composé de deux méthodes spéciales :
+        </p>
+        <ul>
+            <li>la méthode <code>__new__</code> (créateur de l'instance) qui crée la nouvelle instance;</li>
+            <li>la méthode <code>__init__</code> (initialiseur de l'instance), appelé juste aprés, qui initialise les attributs de la nouvelle instance.</li>
+        </ul>
+        <p>
+            Étant donné que l'on ne redéfinit quasiment jamais la méthode <code>__new__</code>, nous allons, dans ce cours, confondre constructeur et méthode <code>__init__</code>.
+        </p>
+        <p>
+            Le constructeur est défini par le code ci dessous.
+        </p>   
+        <div class="row justify-content-center mb-3">
+            <div class="col-6">
+                <pre><code>
+def __init__(self, arg1, arg2, ...):
+    # Bloc d'instruction du constructeur
+# À partir de cette ligne, la définition 
+# du constructeur est terminée               
+                 </code></pre>
+            </div>
+        </div>
+        <p>
+            Cette définition méritent quelques explications :
+        </p>
+        <ul>
+            <li>la méthode <code>__init__</code> agissant sur l'instance elle même, on lui passe, comme <strong>premier</strong> paramètre, l'instance sur laquelle elle est appliquée (c'est d'aileurs le cas de toutes les méthodes qui agissent sur l'instance elle même) en utilisant, par convention le nom <code>self</code> qui n'est pas un mot réservé de Python;</li>
+            <li>Le mot <code>self</code> se réfère à l'instance en cours, c'est à dire que lorsque que l'on va créer l'instance <code>bilbo</code> avec le code <code>bilbo = Personnage()</code>, Python va remplacer <code>self</code> par <code>bilbo</code>;</li>
+            <li>les paramètres suivants (<code>arg1, arg2, ...</code>) sont facultatifs. On verra plus loin dans ce cours à quoi ils servent.</li>
+        </ul>
+        <p>
+            Voici le code dans lequel on attribue vingt points de vie à chaque personnage créé (chaque instance de la classe <code>Personnage</code>).
+        </p>   
+        <div class="row justify-content-center mb-3">
+            <div class="col-8">
+                <pre><code>
+# Définition de la classe Personnage
+class Personnage(object):
+    # Définition du constructeur qui va initialiser les attributs
+    def __init__(self):
+        self.vie = 20
+        # Fin de la définition de __init__          
+# Une instance de la classe Personnage nommée gollum
+gollum = Personnage()                    
+# Une autre instance de la classe Personnage nommée bilbo
+bilbo = Personnage()                     
+# Affichage du nombre de points de vie pour Bilbo
+print ('Bilbo a ' + str(bilbo.vie) + ' points de vie')                     
+# Affichage du nombre de points de vie pour Gollum
+print ('Gollum a ' + str(gollum.vie) + ' points de vie')                    
+# Bilbo est blessé, il perd un point de vie  
+print ('Bilbo est blessé par Gollum')
+bilbo.vie = bilbo.vie - 1                    
+# On affiche de nouveau les points de vie
+print ('Bilbo a ' + str(bilbo.vie) + ' points de vie')
+print ('Gollum a ' + str(gollum.vie) + ' points de vie')                    
+                 </code></pre>
+            </div>
+        </div>
+        <p>
+            Quelques remarques sur ce code :
+        </p>
+        <ul>
+            <li>lors de la création de l'instance <code>gollum</code>, Python va automatiquement remplacer <code>self</code> par <code>gollum</code> et ainsi créer un attribut <code>gollum.vie</code> qui aura pour valeur de départ celle qui a été donnée à <code>self.vie</code> dans la méthode <code>__init__</code> (même principe pour l'instance <code>bilbo)</code>);</li>
+            <li>le résultat est évidemment le même que dans l'exemple précédent mais cette fois ci, nous n'avons pas défini l'attribut <code>vie</code> de <code>gollum</code> et de <code>bilbo</code> par <code>gollum.vie = 20</code> et <code>bilbo.vie = 20</code> en dehors de la classe. Nous avons utilisé une méthode: le constructeur <code>__init__</code> pour encapsuler l'attribut <code>vie</code> et le donner comme caractéristique commune à tous les personnages.</li>
+        </ul>
+        <p>
+            On peut tester et analyser le code dans la fenètre Python ci dessous.
+        </p>
+        <div class="row justify-content-center mb-3">
+            <div class="col-10">
+                <div class="embed-responsive embed-responsive-21by9">
+                    <iframe class="embed-responsive-item" src="https://trinket.io/embed/python3/f879aac7d1" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+        <p>
+            Notre classe <code>Personnage</code> s'améliore car nous avons encapsulé la création des attributs (et donc les attributs). Maintenant ils sont créés au moment de l'<srong>instanciation</srong> à l'aide du constructeur et sont communs à toutes les instances.
+        </p>
+        <p>
+            Malheureusement tous nos personnages (instance de la classe <code>Personnage</code>) ont le même nombre de points de vie à leur création (20 dans notre cas) puisque l'attribut <code>vie</code> est initialisé en « dur » (<code>self.vie=20</code>) dans le bloc d'instructions du constructeur.
+        </p>
+        <p>
+            Alors, comment faire pour que Bilbo et Gollum, n'est pas le même nombre de points de vie à leur création ?
+            Nous allons tout simplement utiliser les paramètres optionnelles de la méthode <code>__init__</code> (les fameux <code>arg1, arg2, ...</code>) pour initialiser les attributs. Lors d'une création d'instance, ces paramètres seront passés au constructeur qui initialisera les différents attributs avec.
+        </p>
+        <p>
+            Voyons ce que cela donne avec notre classe <code>Personnage</code> dans laquelle on a, maintenant, trois attributs d'instance (attributs propre à un objet) : <code>nom</code>, <code>vie</code>, <code>attaque</code>.
+        </p>  
+        <div class="row justify-content-center mb-3">
+            <div class="col-10">
+                <pre><code>
+# Définition de la classe Personnage
+class Personnage(object):
+    # Le constructeur
+    def __init__(self, nomPerso, nbVie=20, nbAttaque=1):
+        self.nom = nomPerso
+        self.vie = nbVie
+        self.attaque = nbAttaque
+# Instance bilbo : nom='Bilbo', vie=20, attaque=1
+bilbo = Personnage('Bilbo')
+# Instance gollum : nom='Gollum', vie=25, attaque=2
+gollum = Personnage('Gollum',25,2)
+# Instance galion : nom='Galion', vie=20, attaque=2
+# Ici pour garder la valeur par défaut de nbVie
+# et passer 2 pour nbAttaque, on nomme cette
+# valeur avec le nom du paramètre
+galion = Personnage('Galion', nbAttaque=2)
+# Affichage du nombre de points de vie
+print (bilbo.nom+' a ' + str(bilbo.vie) + ' points de vie')
+print (gollum.nom+' a ' + str(gollum.vie) + ' points de vie')
+print (galion.nom+' a ' + str(galion.vie) + ' points de vie')
+# Bilbo est blessé, il perd gollum.attaque pts de vie  
+print ('Bilbo est blessé par Gollum')
+bilbo.vie = bilbo.vie - gollum.attaque  
+# On affiche de nouveau les points de vie
+print (bilbo.nom + ' a ' + str(bilbo.vie) + ' points de vie')
+print (gollum.nom + ' a ' + str(gollum.vie) + ' points de vie')
+print (galion.nom + ' a ' + str(galion.vie) + ' points de vie')                    
+                 </code></pre>
+            </div>
+        </div>
+        <p>
+            Quelques remarques s'imposent :
+        </p>
+        <ul>
+            <li> il y a trois paramètres pour la méthode <code>__init__</code> (en plus du premier <code>self</code> qui est obligatoire). Quand le constructeur va être appelé lors de la création d'une instance, il va initilisé l'attribut <code>nom</code> avec la valeur de <code>nomPerso</code> (<code>self.nom=nomPerso</code> , l'attribut <code>vie</code> avec la valeur de <code>nbVie</code> (<code>self.vie=nbVie</code>) et l'attribut <code>attaque</code> avec la valeur de <code>nbAttaque</code> (<code>self.attaque=nbAttaque</code>);</li>
+            <li>on a attribué une valeur par défaut au pramètre <code>nbAttaque</code> qui servira à initialisé l'attribut <code>attaque</code> si on ne fournit pas de valeur au paramètre <code>nbAttaque</code>. Cela permet de le rendre optionnel;</li>
+            <li>lors de la création de l'instance <code>galion</code>, on a nommé la valeur 2 avec le nom du paramètre <code>nbAttaque</code> (on parle d'<strong>arguments nommés</strong> qui se placent toujours aprés les autres dits <strong>positionnels</strong>) afin de garder la valeur par défaut de <code>nbVie</code>.</li> 
+        </ul>
+        <p>
+            Testons cette nouvelle écriture de la classe <code>Personnage</code> dans la fenètre Python ci dessous.
+        </p>
+        <div class="row justify-content-center mb-3">
+            <div class="col-10">
+                <div class="embed-responsive embed-responsive-21by9">
+                    <iframe class="embed-responsive-item" src="https://trinket.io/embed/python3/696aa6f826" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+        <p>
+            Tout cela est trés bien mais on voit encore « trainer » des <code>bilbo.vie</code> ou des <code>gollum.attaque</code> dans le code principal. C'est, en fait, une trés mauvaise pratique que d'accéder directement aux attributs des objets en dehors de ceux ci (ou de la classe dont ils sont une instance). C'est pourquoi, dans certains langages comme le C++, les attributs sont <strong>privés</strong> par défaut et non <strong>publiques</strong> comme en Python qui est un langage trés permissif.
+        </p>
+        <p>
+            Pour résoudre ce problème, nous allons créer de nouvelles méthodes d'instance (méthodes qui agissent sur l'instance elle même) et les encapsuler dans la classe <code>Personnage</code>.
+        </p>
+    <h4>Étape 4 : l'encapsulation</h4>
+        <p>
+            Dans cette partie nous allons utiliser des méthodes, appelées <strong>accesseurs</strong> et <strong>mutateurs</strong> pour, respectivement, accéder et modifier les attributs. Souvent, on utilise des noms de la forme <code>get_<i>nomAttribut</i></code> pour les accesseurs et <code>set_<i>nomAttribut</i></code> pour les mutateurs.. Un autre intérét est, qu'avec les mutateurs, on peut facilement effectuer des vérifications sur la validité des données fournies.
+        </p>
+        <p>
+            De plus, nous allons redéfinir la méthode spéciale <code>__repr__</code> héritée de la « super classe » <code>object</code> qui permet d'avoir une représentation (chaine de caractères) évaluable par l'interpréteur Python pour une instance de <code>Personnage</code>. Ainsi quand on va taper le nom de l'instance dans la console, (c'est aussi ce que renvoie la fonction <code>repr</code>) au lieu de <code>&lt__main__.Personnage at 0x19210c4f430&gt</code> on aura une chaine qui décrit l'instance. Mais alors à quoi sert la méthode <code>__str__</code> ? En fait elle permet, si on la redéfinit, d'avoir une représentation pour l'affichage (plus « jolie » que celle de <code>__repr__</code>) avec la fonction <code>print</code> par exemple (c'est aussi ce que renvoie la fonction <code>str</code>). Si elle n'est pas redéfini alors <code>__str__=__repr__</code>. Nous allons aussi ajouter quelques méthodes pour gérer, par exemple, les interactions entre objets telles qu'un combat.
+        </p>
+        <p>
+            Voici, ci dessous, la nouvelle définition de la classe <code>Personnage</code>.
+        </p>  
+        <div class="row justify-content-center mb-3">
+            <div class="col-10">
+                <pre><code>
+# Définition de la classe Personnage
+class Personnage(object):
+    # le constructeur
+    def __init__(self, nomPerso, nbVie=20, nbAttaque=1):
+        self.nom = nomPerso
+        self.vie = nbVie
+        self.attaque = nbAttaque            
+    # la représentation évaluable d'une instance
+    def __repr__(self):
+        return "&lt nom:{},vie:{},attaque:{} >".format(repr(self.nom),self.vie,self.attaque)                 
+    # la représentation pour l'affichage d'une instance
+    def __str__(self):
+        return "nom : " + self.nom + "\npoints de vie : " + str(self.vie) + "\nnombre d'attaques : " + str(self.attaque)               
+    # les accesseurs
+    def get_nom(self):
+        return self.nom
+    def get_vie(self):
+        return self.vie
+    def get_attaque(self):
+        return self.attaque                
+    # les mutateurs sauf pour nom (on ne peut changer de nom)
+    def set_vie(self, nbVie):
+        self.vie = nbVie
+    def set_attaque(self, nbAttaque):
+        self.attaque = nbAttaque                    
+    # autres méthodes
+    def combattre(self, autre):
+        print(self.nom+' attaque ' + autre.get_nom())
+        if autre.get_vie() > self.attaque:
+            print(autre.get_nom() + ' a perdu ' + str(self.attaque) + ' points de vie')
+            autre.set_vie(autre.get_vie() - self.attaque)
+            print('il lui en reste ' + str(autre.get_vie()))
+        else:
+            print(autre.get_nom() + ' est mort')                    
+                 </code></pre>
+            </div>
+        </div>
+        <p>
+            Voyons ce que cela donne avec un petit programme principal.
+        </p>
+        <div class="row justify-content-center mb-3">
+            <div class="col-10">
+                <div class="embed-responsive embed-responsive-21by9">
+                    <iframe class="embed-responsive-item" src="https://trinket.io/embed/python3/e7296e14fe" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+<h2>Conclusion</h2>
+    <p>
+        Nous voilà donc maintenant avec un programme beaucoup plus orienté objet qu'au tout début. Nous arréterons là notre exposé tant pour la POO en générale que pour son utilisation en Python. Il y aurait bien sûr beaucoup de choses à dire encore mais cela dépasse le cadre du programme. Nous aborderons poutant dans certains TDs, certaines notions comme l'<strong>héritage</strong> et certaines particularités syntaxiques (« sucre syntaxique ») de Python comme la classe <code>property</code> qui permet d'utiliser d'utiliser le code <code>objet.<i>nomAttribut</i></code> à la place de <code>objet.get_<i>nomAttribut</i></code> ou <code>objet.set_<i>nomAttribut</i></code> tout en conservant la notion d'accesseur et de mutateur.
+    </p>

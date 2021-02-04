@@ -1,0 +1,23 @@
+{% extends 'nsi/base_cours.html' %}
+{% load static %}
+
+{% block title %}{{ cours.name}}{% endblock %}
+
+{% block image1 %}{% static 'nsi/img/cours/' %}{{ image1 }}{% endblock %}
+{% block text1 %} {{cours.text1}} {% endblock %}
+
+{% block image2 %}{% static 'nsi/img/cours/' %}{{ image2 }}{% endblock %}
+{% block text2 %} {{cours.text2}} {% endblock %}
+
+{% block image3 %}{% static 'nsi/img/cours/' %}{{ image3 }}{% endblock %}
+{% block text3 %} {{cours.text3}} {% endblock %}
+
+{% block content %}
+    {% if cours.contenu %}
+        {% with "nsi/cours/"|add:cours.contenu as template %}
+            {% include template %}
+        {% endwith %}
+    {% else %}
+        <p>TEST \(a \ne b \)</p>
+    {% endif %}
+{% endblock %}

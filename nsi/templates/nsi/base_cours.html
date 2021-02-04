@@ -1,0 +1,113 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <title>{% block title %}Accueil NSI{% endblock %}</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1 shrink-to-fit=no">
+        <link rel="stylesheet" href="{% static 'nsi/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'nsi/css/base.css' %}">
+        <link rel="stylesheet" href="{% static 'nsi/css/prism.css' %}">
+        <script id="MathJax-script" async src="{% static 'nsi/mathjax/tex-chtml.js' %}"></script>
+    </head>
+
+    <body class="fond language-python">
+        <nav class="navbar navbar-expand-md bg-light navbar-light fixed-top">
+            <a class="nav-brand" href="{{cours.theme.get_absolute_url}}">{{cours.theme.short_name}}</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#MyMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse justify-content-end" id="MyMenu">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="themedrop" data-toggle="dropdown">Travaux dirigés</a>
+                    <div class="dropdown-menu">
+                        {% for td in cours.td_set.all %}
+                            <a class="dropdown-item" href="#">{{ td.name }}</a>
+                        {% empty %}
+                            
+                        <a class="dropdown-item disabled" href="#">Aucun td</a>
+                        {% endfor %}
+                    </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Compléments</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        
+        <div id="histoire" class="carousel slide mt-6 invisible" data-ride="carousel">
+
+            <!-- Indicators -->
+            <ul class="carousel-indicators">
+              <li data-target="#histoire" data-slide-to="0" class="active"></li>
+              <li data-target="#histoire" data-slide-to="1"></li>
+              <li data-target="#histoire" data-slide-to="2"></li>
+            </ul>
+            
+            <!-- The slideshow -->
+            <div class="carousel-inner pt-2">
+              <div class="carousel-item active">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-auto">
+                            <img src="{% block image1 %}#{% endblock %}" height ="240" alt="Image 1">
+                        </div>
+                        <div class="col-md contenu">
+                            <p class="lead">{% block text1 %} {% endblock %}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+              <div class="carousel-item">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-auto">
+                            <img src="{% block image2 %}#{% endblock %}" height ="240" alt="Image 2">
+                        </div>
+                        <div class="col-md contenu">
+                            <p class="lead">{% block text2 %} {% endblock %}</p>
+                        </div>
+                    </div>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-auto">
+                            <img src="{% block image3 %}#{% endblock %}" height ="240" alt="Image 3">
+                        </div>
+                        <div class="col-md contenu">
+                            <p class="lead">{% block text3 %} {% endblock %}</p>
+                        </div>
+                    </div>
+                </div>
+              </div>
+              </div>
+            </div>
+            
+            <!-- Left and right controls -->
+            <!-- <a class="carousel-control-prev" href="#histoire" data-slide="prev">
+              <span class="carousel-control-prev-icon"></span>
+            </a>
+            <a class="carousel-control-next" href="#histoire" data-slide="next">
+              <span class="carousel-control-next-icon"></span>
+            </a>-->
+        </div>
+
+        <div  class="container contenu py-3 px-5 my-5 min-vh-100">
+            {% block content %}{% endblock %}
+        </div>
+
+        <nav class="navbar navbar-expand-md bg-light navbar-light justify-content-center"> 
+            <span class="navbar-text">
+                Lycée Dick Ukeiwé 2020
+            </span>
+        </nav> 
+        <script src="{% static 'nsi/js/jquery.min.js' %}"></script>
+        <script src="{% static 'nsi/js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'nsi/js/prism.js' %}"></script>
+    </body>
+</html>

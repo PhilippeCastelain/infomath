@@ -1,0 +1,28 @@
+.jumbofond {
+    background-image: url("/static/nsi/img/jumbofond.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: white
+}
+
+.fond {
+    background-image: url("/static/nsi/img/fond.jpg");
+    background-size: contain;
+    background-repeat: repeat;
+    color: white
+}
+
+.contenu {
+    background-color: lightblue;
+    color: black
+
+}
+
+.mt-6 {
+    margin-top: 56px;
+  }
+
+ .pseudocode {
+    color: black;
+    background-color:lightgrey
+} 
