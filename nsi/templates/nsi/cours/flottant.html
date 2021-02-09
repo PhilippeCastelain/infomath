@@ -66,7 +66,7 @@
         0,\!6\times2&=1,\!2&={\color{red} 1}+0,\!2\cr
                      &\vdots&\vdots}.
         $$
-        On a ici une partie dyadique infinie et donc \(0,\!2=0,\!00110011\dots_2\).
+        On a ici une partie dyadique infinie et donc \(0,\!2={\tt0,\!00110011\dots_2}\).
     </p>
     <p>
         Ainsi les nombres avec une écriture dyadique infinie ne pourront être représentés exactement en machine quelque soit le codage utilisé puisque les mots en machine ont forcément une taille finie. La question qui se pose est : Quel est le meilleur codage pour avoir le maximum de nombre réel représentable avec une perte de précision acceptable ?
@@ -79,7 +79,7 @@
         C'est le codage le plus simple à réaliser et qui permet de réaliser facilement les opérations élémentaires. Pourtant il est peu utlisé de nos jours dans nos ordinateurs car il présente un grave défaut que nous verrons ensuite. Il est pourtant utilisé dans certains microcontroleurs à faible cout car il est facile à mettre en oeuvre avec peu d'électronique supplémentaire par rapport aux nombres entiers.
     </p>
     <p>
-        Ce codage consiste à séparer les mots en mémoire en deux partie, une pour la partie entière et l'autre pour la partie fractionnaire. Par exemple sur 16 bits on peut réserver 10 bits pour la partie entière et 6 bits pour la partie fractionnaire. On parle de codage en <strong>virgule fixe</strong> (fixed point en anglais) car la virgule est toujours au même endroit quelque soit le nombre codé. Dans notre exemple on sait qu'elle est entre le sixième bit (bit des demis) et le septième bit (bit des unités). On peut alors utiliser le complément à deux si l'on veut coder des nombres négatifs. Le schéma ci dessous va nous permettre de mieux visualiser ce codage.
+        Ce codage consiste à séparer les mots en mémoire en deux partie, une pour la partie entière et l'autre pour la partie fractionnaire. Par exemple sur 8 bits on peut réserver 5 bits pour la partie entière et 3 bits pour la partie fractionnaire. On parle de codage en <strong>virgule fixe</strong> (fixed point en anglais) car la virgule est toujours au même endroit quelque soit le nombre codé. Dans notre exemple on sait qu'elle est entre le troisième bit (bit des demis) et le quatrième bit (bit des unités). On peut alors utiliser le complément à deux si l'on veut coder des nombres négatifs. Le schéma ci dessous va nous permettre de mieux visualiser ce codage.
     </p>
     <div class="text-center">
         <figure class="figure">
@@ -87,7 +87,94 @@
             <figcaption class="figure-caption">Exemple codage en virgule fixe.</figcaption>
         </figure>
     </div>
-<h2>Codage en virgule flottante</h2>
     <p>
-
+        Dans cette exemple on a :
+    </p>
+    <ul>
+        <li>la plus petite valeur négative codable en complément à deux est \({\tt 10000000_2}={\tt 10000,\!000_2}=-2^4=-16\);</li>
+        <li>la plus grande valeur positive codable en complément à deux est \({\tt 01111111_2}={\tt 01111,\!111_2}=15,\,875\);</li>
+        <li>la plus petite valeur positive codable en complément à deux est \({\tt 00000001_2}={\tt 00000,\!001_2}=2^{-3}=0,\!125\)</li>
+    </ul>
+    <p>
+        Ainsi dans cet exemple on peut coder les nombres compris entre -16 et 15,875 avec un pas de quantification (différence entre deux nombres consécutifs) constant égal à 0,125. Le problème est donc que la partie fractionnaire induit une diminution des plus grands nombres en valeur absolue alors que les premiers chiffres sont peu significatifs pour les très grands nombres. Parallèlement la partie entière diminue la possibilité d'avoir de très petits nombres (proche de zéro) en valeur absolue. Pour remédier à ce problème, on va utiliser le codage en <strong>virgule flottante</strong> qui permet d'augmenter le pas de quantification pour les grands nombres en valeur absolue et de le diminuer pour les nombres proches de zéro.
+    </p>
+<h2>Codage en virgule flottante</h2>
+    <h3>Principe</h3>
+    <p>
+        Ce codage est basée sur le même principe que l'écriture scientifique en mathématiques mais en binaire. Ainsi en écriture scientifique (en base 10) on a par exemple :
+    </p>
+    <ul>
+        <li>\(147,\!28=1,\!4728\times10^2\)</li>
+        <li>\(-0,\!004896=-4,\!896\times10^{-3}\)</li>
+    </ul>
+    <p>
+        Dans cette écriture le nombre décimal est normalisé à un chiffre avant la virgule différent de zéro et on en déduit l'exposant de la puissance de 10. Le codage en <strong>virgule flottante</strong> repose sur ce principe mais en binaire le seul chifre différent de zéro est 1 et la puissance est une puissance de 2. Ainsi on écrira :
+    </p>
+    <ul>
+        <li>\(27,\!6875={\tt 11011,\!1011_2}={\tt 1,\!10111011_2}\times2^4\)</li>
+        <li>\(-0,\!34375={-\tt 0,\!01011_2}={-\tt 1,\!011_2}\times2^{-2}\)</li>
+    </ul>
+    <p>
+        Comment maintenant passer de cette écriture mathématique à un codage sur un nombre fini de bits ? On va réserver un bit (le bit de poids fort) pour le signe (1 : positif, 0 : négatif) puis des bits pour coder l'exposant en base 2 et enfin des bits pour coder la <strong>mantisse</strong> qui correspond au nombre avant la puissance de 2. Ainsi sur 16 bits on peut décider de réserver 1 bit pour le signe s, 6 bits pour l'exposant e et 9 bits pour la mantisse m. Pour calculer le nombre résultant on effectue le calcul suivant : $$(-1)^s\times m\times2^e.$$
+        En fait vu que la mantisse est toujours de la forme \(1,\!\dots\), on ne code pas le 1 avant la virgule (on parle de <strong>bit caché</strong>). Cela permet de gagner un bit et ainsi d'augmenter la précision.
+    </p>
+    <p>
+        Pour coder les exposants négatifs, on utilise un codage <strong>binaire décalé</strong> et non le complément à deux. On ajoute un décalage à l'exposant que l'on doit représenter et on code ensuite le résultat en binaire (donc on soustrait le décalage au codage pour trouver l'exposant). Si l'on réserve n bits pour l'exposant, le décalage est égale à \(2^{n-1}-1\). Dans notre exemple ci dessus sur 6 bits on ajoute donc \(2^{6-1}-1=2^5-1=31\). Ainsi si l'exposant est égale à -3 on code -3+31=29 et s'il est égale à 7 on code 7+31=38. On pourra représenter les exposants de -31 à 32 en les codant de 0 (\(\tt 000000_2\)) à 63 (\(111111_2\)). Donc sur n bits on pourra représenter les exposants de \(-2^{n-1}+1\) (codé par \(\tt 00\dots00_2\)) à \(2^{n-1}\) (codé par \(\tt 11\dots11_2\)).
+    </p>
+    <p>
+        Un petit schéma pour résumer toutes ces informations.
+    </p>
+    <div class="text-center">
+        <figure class="figure">
+            <img src="{% static 'nsi/img/cours/RD/floating_point.svg' %}" class="figure-img img-fluid" alt="Codage en virgule flottante">
+            <figcaption class="figure-caption">Exemple codage en virgule flottante.</figcaption>
+        </figure>
+    </div>
+    <p>
+        On aurait pu aussi effectuer le produit mantisse par puissance de deux sur l'écriture binaire de la mantisse. En effet multiplier un nombre en binaire par une puissance de deux revient à décaler la virgule la gauche si l'exposant est positif et vers la droite s'il est négatif (même chose qu'en décimal avec les puissances de dix). On va appliquer cette méthode sur un autre exemple.
+    </p>
+    <p>
+        On considère le nombre \(p\) codé en virgule flottante (avec les mêmes caractéristiques que précédemment) de la manière suivante :$$1011110110000000.$$ On a alors :
+    </p>
+    <ul>
+        <li>signe : \(1\) donc \(s=1\);</li>
+        <li>exposant : \({\tt 011110_2}=30\) donc \(e=30-31=-1\);</li>
+        <li>mantisse = \(\tt 110000000_2\) donc \(m=1,\!110000000_2\).</li>
+    </ul>
+    <p>Donc \(p=(-1)^1\times{\tt 1,\!110000000_2}\times2^{-1}=-{\tt 0,\!111_2}=-0,\!875\)</p>
+    <h3>Norme IEEE 754</h3>
+    <p>
+        Afin que tous aient les mêmes codages, une norme a été créée : la norme IEEE 754. Elle propose plusieurs tailles d'implémentation des nombres en virgule flottante ainsi qu'un ensemble de règles pour traiter certaines valeurs particulières.
+    </p>
+    <p>Les deux implémentations les plus utilisées sont :</p>
+    <ul>
+        <li>simple précision (32 bits : 1 bit de signe, 8 bits d'exposant (−126 à 127), 24 bits de mantisse, dont un bit 1 implicite) ;</li>
+        <li>double précision (64 bits : 1 bit de signe, 11 bits d'exposant (−1022 à 1023), 53 bits de mantisse, dont un bit 1 implicite).</li>
+    </ul>
+    <p>
+        Pour les codages de l'exposant ne comportant que des zéros (e=-127 en simple précision ou e=-1023 en double) ou que des uns (e=128 en simple précision ou e=1024 en double), on a des valeurs particulières définies par la norme et que l'on appelle valeurs dénormalisées car le bit caché n'est plus 1 mais 0. Pour plus de renseignements rendez vous sur Wikipedia à l'article <a href="https://fr.wikipedia.org/wiki/IEEE_754" target="_blank">IEEE 754</a>.
+    </p>
+    <h3>Une représentation approximative</h3>
+    <p>
+        Tous les réels ayant une écriture infinie en binaire ne peuvent être représentée de manière exacte sur un nombre fini de bits (en machine donc). Par exemple on a :
+        $$0,\!2={\tt0,\!0011001100110011\dots_2}={\tt1,\!100110011001100\dots_2}\times2^{-3}.$$
+        La mantisse \(m={\tt1,\!100110011001100\dots_2}) est infinie donc on va devoir la tronquer afin de pouvoir la coder. Par exemple en simple précision (mantisse sur 23 bits) on aurait :
+        $$10011001100110011001100.$$
+    </p>
+    <p>
+        Donc par exemple le nombre <code>0.2</code> de type <code>float</code> en Python n'est qu'une valeur approchée du nombre réel 0,2. En fait il y a une infinité de nombre réels qui n'ont qu'une représentation approchée en virgule flottante. 
+    </p>
+    <p>
+        Cette caractéristique nous amène à être méfiant lorque l'on manipule les nombres en virgule flottante dans un langage de programmation. Par exemple lorsque l'on ajoute ou on soustrait des nombres en virgule flottante on peut avoir des résultats surprenants. En conséquence il faut éviter de comparer des flottants et ne <strong>jamais</strong> tester l'égalité. Testons cela dans la fenètre Python ci dessous.
+    </p>
+    <div class="row justify-content-center mb-3">
+        <div class="col-6">
+            <div class="embed-responsive embed-responsive-21by9">
+                <iframe class="embed-responsive-item" src="https://trinket.io/embed/python3/0223bec630" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+<h2>Conclusion</h2>
+    <p>
+        Les nombres en virgule flottante sont une représentation approximative des nombres réels dans un ordinateur. En particulier, il n’est pas possible de représenter de manière exacte en machine tous les nombres réels. La manipulation de nombres réels par un langage informatique est donc à prendre avec précaution car elle peut engendrer des résultats surprenants, en particulier il ne faut jamais tester l’égalité entre deux flottants. En Python il existe un seul type flottant qui est le type <code>float</code> correspondant en général à un codage en double précision (sur 64 bits). En C, on a plusieurs types flottant comme le type <code class="language-clike">float</code> correspondant à un codage en simple précision (sur 32 bits) ou le type <code class="language-clike">double</code> correspondant à un codage en double précision.
     </p>
