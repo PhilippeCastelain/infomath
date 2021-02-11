@@ -1,6 +1,3 @@
-
-Our base settings are complete, but now we need our Heroku-specific settings. Create a new file under gettingstarted/settings called heroku.py and paste the following block of code:
-
 """
 Production Settings for Heroku
 """
