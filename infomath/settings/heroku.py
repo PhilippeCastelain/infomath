@@ -26,7 +26,7 @@ DATABASES = {
     'default': env.db(),
 }
 # Static files settings
-PROJECT_ROOT = Path(__file__).resolve().parent
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 STATIC_ROOT = PROJECT_ROOT.joinpath('staticfiles')
 
