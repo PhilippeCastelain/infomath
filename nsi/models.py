@@ -75,6 +75,9 @@ class Td(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse('nsi:td-detail', args=[str(self.id)])
+
 class Qcm(models.Model):
     name = models.CharField(max_length=100)
     questions = models.ManyToManyField(Question)

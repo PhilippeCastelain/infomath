@@ -8,4 +8,5 @@ urlpatterns = [
 	path('themes/<int:pk>/', views.ThemeDetailView.as_view(), name='theme-detail'),
 	path('themes/<niveau>/', views.ThemeNiveauListView.as_view(), name='themes-niveau'),
 	path('cours/<int:pk>/', views.CoursDetailView.as_view(), name='cours-detail'),
+	path('td/<int:pk>/', views.TdDetailView.as_view(), name='td-detail'),
 ]

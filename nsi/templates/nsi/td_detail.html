@@ -1,0 +1,12 @@
+{% extends 'nsi/base_cours.html' %}
+{% load static %}
+
+{%  block content %}
+{% if td.contenu %}
+    {% with "nsi/td/"|add:td.contenu as template %}
+        {% include template %}
+    {% endwith %}
+{% else %}
+    <p>En construction</p>
+{% endif %}
+{% endblock %}

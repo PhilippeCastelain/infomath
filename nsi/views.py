@@ -2,7 +2,7 @@
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, TemplateView
-from .models import Theme, Cours
+from .models import Theme, Cours, Td
 
 
 class HomeView(TemplateView):
@@ -45,3 +45,7 @@ class CoursDetailView(DetailView):
 		context['image2'] = context['cours'].theme.code + '/' + context['cours'].image2
 		context['image3'] = context['cours'].theme.code + '/' + context['cours'].image3
 		return context
+
+class TdDetailView(DetailView):
+	model = Td
+	template_name = 'nsi/td_detail.html'
