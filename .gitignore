@@ -124,4 +124,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 # VScode
-/.vscode
+.vscode
+admin.txt
