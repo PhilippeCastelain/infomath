@@ -1,0 +1,81 @@
+{% load static %}
+<h1>{{cours.name}}</h1>
+<h2>Introduction</h2>
+    <p>
+        En première, on a déja vu des stuctures de données concrètes telles que les tableaux indexés (avec le type Python <code>list</code>. Cette année nous allons distinguer les <strong>structures de données abstraites</strong> (ou <strong>types de données abstraits</strong>) de leur <strong>implémentation</strong> à l'aide d'un langage de programmation et de structure de données concrètes.
+    </p>
+    <p>
+        Une structure de données est une manière d’organiser et de stocker l’information, dont l’objectif est de les traiter plus facilement. Une structure de données doit avoir une interface : un ensemble d'opérations pour ajouter, effacer, accéder, réorganiser, etc… les données.
+    </p>
+<h2>Type de données abstrait</h2>
+    <p>
+        De façon plus précise, un <strong>type de données abstrait</strong> (<strong>TDA</strong> en abrégé) est une spécification :
+    </p>
+    <ul>
+        <li>d'un ensemble de données;</li>
+        <li>de l'ensemble des opérations (l'<strong>interface</strong>) que l'on peut effectuer sur elles</li>
+    </ul>
+    <p>
+        On peut aussi rajouter les <strong>préconditions</strong> qui définissent les conditions de validité applicables aux opérations.
+    </p>
+    <p>
+        On peut donc voir un TDA comme un cahier des charges que la structure de données concrètes (l'implémentation) doit respecter. On peut, par ailleurs, avoir plusieurs implémentations possibles du même TDA.
+    </p>
+<h2>Un exemple : le TDA <code>date</code></h2>
+<h3>L'interface</h3>
+    <p>
+        On va définir un type de données abstrait appelé <code>date</code> correpondant à l'ensemble des dates écrites sous la forme <code>jj/mm/aaaa</code>. On souhaite effectuer les opérations suivantes sur les dates :
+    </p>
+    <ul>
+        <li>créer une date;</li>
+        <li>accéder au jour, au mois et à l'année d'une date;</li>
+        <li>modifier le jour, le mois ou l'année d'une date;</li>
+        <li>comparer des dates;</li>
+        <li>calculer le nombre de jours entre deux dates.</li>
+    </ul>
+    <p>
+        Pour accomplir ces taches, on spécifie l'interface suivante :
+    </p>
+    <ul>
+        <li><code>date(j,m,a)</code> : renvoie un élément de type <code>date</code>  créé à partir de trois entiers j (le jour), m (le mois) et a (l'année);</li>
+        <li><code>getJour(d)</code> : renvoie un entier correspondant jour d'une date d;</li>
+        <li><code>getMois(d)</code> : renvoie un entier correspondant au mois d'une date d (renvoie un entier);</li>
+        <li><code>getAnnee(d)</code> : accède à l'année d'une date d (renvoie un entier);</li>
+        <li><code>setJour(d,j)</code> : modifie le jour de la date d avec l'entier j;</li>
+        <li><code>setMois(d,m)</code> : modifie le mois de la date d avec l'entier m;</li>
+        <li><code>setAnnee(d,a)</code> : modifie l'année de la date d avec l'entier a;</li>
+        <li><code>dateAvant(d1,d2)</code> : renvoie <code>True</code> si la date d1 est avant d2;</li>
+        <li><code>dateEgal(d1,d2)</code> : renvoie <code>True</code> si les dates d1 et d2 sont identiques;</li>
+        <li><code>inter(d1,d2)</code> : renvoie un entier correspondant au nombre de jours entre la date d1 et la date d2.</li>
+    </ul>
+    <p>
+        On ajoute à cela une opération permettant d'afficher une date sous la forme d'une chaîne de caractères :
+    </p>
+    <ul>
+        <li><code>afficher(d)</code> : affiche la date sous la forme d'une chaîne de caractères 'jj/mm/aaaa'</li>
+    </ul>
+    
+    <h3>Implémentations</h3>
+        <p>
+            Pour implémenter un TDA, c'est-à-dire programmer les opérations sur la structure, il est nécessaire de s'appuyer sur les types de données déjà définis dans le langage utilisé. En Python, on peut avantageusement utiliser les types <code>int</code>, <code>float</code>, <code>boolean</code> ainsi que les p-uplets (avec le type <code>tuple</code>), les tableaux (avec le type <code>list</code>), les dictionnaires (avec le type <code>dict</code>).
+        </p>
+        <p>
+            On va ici envisager deux implémentations, l'une avec un tableau et l'autre avec un dictionnaire. Pour faire court, on passera sous silence les préconditions. Par exemple un entier représentant la valeur d'un mois doit être compris entre 1 et 12.
+        </p>
+    <h4>Une implémentation avec un tableau</h4>
+        <p>
+            On peut implémenter le TDA <code>date</code> en utilisant le type python <code>list</code>. Voilà ce que pourrait être l'implémentation de certaines opérations du type <code>date</code>.
+        </p>
+        <p>
+            On peut alors vérifier que les opérations implémentées donnent des résultats conformes à l'interface.
+        </p>
+        <h4>Une implémentation avec un dictionnaire</h4>
+        <p>
+            On peut par exemple implémenter le TDA <code>date</code> en utilisant le type python <code>dict</code>. Voilà ce que pourrait être l'implémentation de certaines opérations du type <code>date</code>.
+        </p>
+        <p>
+            On peut alors vérifier que les opérations implémentées donnent des résultats conformes à l'interface.
+        </p><h2>Conclusion</h2>
+        <p>
+            L'interface apporte toutes les informations nécessaires pour utiliser le type de données abstrait. Ainsi, le programmeur qui s'en sert n'a pas à se soucier de la façon dont les données sont représentées ni de la manière dont les opérations sont programmées (il en fait <strong>abstraction</strong>). L'interface (uniquement) lui permet d'écrire toutes les instructions qu'il souhaite et obtenir des résultats corrects. Par exemple, dans le cas précédent, l'implémentation du type <code>date</code> n'est pas la même dans les deux cas (en particulier la fonction <code>dateAvant</code>). Pourtant, lorsque les opérations sont appliquées aux mêmes données, on obtient les mêmes résultats.
+        </p>
