@@ -24,7 +24,7 @@
                         <a class="nav-link dropdown-toggle" href="#" id="themedrop" data-toggle="dropdown">Travaux dirigés</a>
                     <div class="dropdown-menu">
                         {% for td in cours.td_set.all %}
-                            <a class="dropdown-item" href="{{td.get_absolute_url}}">{{ td.name }}</a>
+                            <a class="dropdown-item" href="{{td.contenu}}">{{ td.name }}</a>
                         {% empty %}    
                         <a class="dropdown-item disabled" href="#">Aucun td</a>
                         {% endfor %}
