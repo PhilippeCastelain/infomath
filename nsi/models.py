@@ -65,7 +65,7 @@ class Question(models.Model):
 
 class Td(models.Model):
     name = models.CharField(max_length=100)
-    contenu = models.CharField(max_length=100, blank=True)
+    contenu = models.CharField(max_length=200, blank=True)
     cours = models.ForeignKey(Cours, on_delete=models.SET_NULL, null=True)
 
     class Meta:
