@@ -46,6 +46,6 @@ class CoursDetailView(DetailView):
 		context['image3'] = context['cours'].theme.code + '/' + context['cours'].image3
 		return context
 
-class TdDetailView(DetailView):
-	model = Td
-	template_name = 'nsi/td_detail.html'
+#class TdDetailView(DetailView):
+#	model = Td
+#	template_name = 'nsi/td_detail.html'
