@@ -13,7 +13,7 @@
 
     <body class="fond language-python">
         <nav class="navbar navbar-expand-md bg-light navbar-light fixed-top">
-            <a class="nav-brand" href="{{cours.theme.get_absolute_url}}" target="_blank">{{cours.theme.short_name}}</a>
+            <a class="nav-brand" href="{{cours.theme.get_absolute_url}}">{{cours.theme.short_name}}</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#MyMenu">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -24,7 +24,7 @@
                         <a class="nav-link dropdown-toggle" href="#" id="themedrop" data-toggle="dropdown">Travaux dirigés</a>
                     <div class="dropdown-menu">
                         {% for td in cours.td_set.all %}
-                            <a class="dropdown-item" href="{{td.contenu}}">{{ td.name }}</a>
+                            <a class="dropdown-item" href="{{td.contenu}}" target="_blank">{{ td.name }}</a>
                         {% empty %}    
                         <a class="dropdown-item disabled" href="#">Aucun td</a>
                         {% endfor %}
