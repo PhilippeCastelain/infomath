@@ -27,6 +27,6 @@
     background-color:lightgrey
 } 
 
-mjx-container {
-    overflow: auto;
+mjx-container{
+    overflow-x: auto;
 }
