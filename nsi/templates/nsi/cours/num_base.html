@@ -86,7 +86,7 @@
     </p>
     <p>
         L'intéret de l'hexadécimal est que 16 est une puissance de 2 (\(16=2^4\)). Un chiffre hexadécimal est donc codé avec 4 bits.
-    </p> 
+    </p>
     <div class="row">
         <div class="col d-flex justify-content-end">
             <table class="table table-bordered table-sm w-auto">
@@ -340,4 +340,89 @@
         </div>
         <p>
             Dans le premier cas \(\tt 10011001_2+01011011_2=11110100_2\) (153 + 91 = 244), la somme est bien codée sur un octet. Par contre, dans le deuxième cas, la somme nécessite neuf bits pour être codée et ne peut donc pas être représenter sur un octet. Sur un octet on obtient \(\tt 10011001_2+11011011_2=01110100_2\) (153 + 219 = 116 au lieu de 372) On dit qu'il y a <strong>débordement</strong> (overflow). Il est du au bit de retenue de la somme des bits de poids forts.
+        </p>
+<h2>Conclusion</h2>
+        <p>
+            Pour conclure cet exposé, nous allons un discuter des unités utilisées en informatique. Dans le passé lorsque l'on parlait de kilooctet ou de megaoctet, les préfixes kilo et méga représentés des puissances de 2 (kilo = 2<sup>10</sup> = 1024, mega = 2<sup>20</sup>). En 1998, un organisme de normalisation rétablit les préfixes classiques en puissance de 10 et crée de nouveaux préfixes pour les puissances de 2. Les tableaux ci dessous en donnent quelques exemples.
+        </p>
+        <div class="row">
+            <div class="col d-flex justify-content-end">
+                <table class="table table-bordered table-sm w-auto">
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Symbole</th>
+                            <th>Valeur</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>kilooctet</td>
+                            <td>ko</td>
+                            <td>10<sup>3</sup></td>
+                        </tr>
+                        <tr>
+                            <td>mégaoctet</td>
+                            <td>Mo</td>
+                            <td>10<sup>6</sup></td>
+                        </tr>
+                        <tr>
+                            <td>gigaoctet</td>
+                            <td>Go</td>
+                            <td>10<sup>9</sup></td>
+                        </tr>
+                        <tr>
+                            <td>téraoctet</td>
+                            <td>To</td>
+                            <td>10<sup>12</sup></td>
+                        </tr>
+                        <tr>
+                            <td>pétaoctet</td>
+                            <td>Po</td>
+                            <td>10<sup>15</sup></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col d-flex justify-content-start">
+                <table class="table table-bordered table-sm w-auto">
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Symbole</th>
+                            <th>Valeur</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>kibioctet</td>
+                            <td>Kio</td>
+                            <td>2<sup>10</sup></td>
+                        </tr>
+                        <tr>
+                            <td>mébioctet</td>
+                            <td>Mio</td>
+                            <td>2<sup>20</sup></td>
+                        </tr>
+                        <tr>
+                            <td>gibioctet</td>
+                            <td>Gio</td>
+                            <td>2<sup>30</sup></td>
+                        </tr>
+                        <tr>
+                            <td>tébioctet</td>
+                            <td>Tio</td>
+                            <td>2<sup>40</sup></td>
+                        </tr>
+                        <tr>
+                            <td>pébioctet</td>
+                            <td>Pio</td>
+                            <td>2<sup>50</sup></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <p>
+            Au lieu de ko, Mo, etc, on trouve aussi dans la littérature anglo-saxxonne kB (kilobyte), MB (mégabyte), etc. Par contre quand on parle de kilobit (symbole kb), de mégabit (Mb), etc, on a toujours des préfixes en puissance de 10.
         </p>
